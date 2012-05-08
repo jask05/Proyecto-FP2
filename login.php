@@ -1,5 +1,11 @@
 <?php
     include("lib/funciones.php");
+    
+    // Conexión a la BD
+    $db_connect = new Query();
+    $db_connect->conection("localhost", "root", "", "proyecto_fp2");
+    
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -8,13 +14,13 @@
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <title>Dreamworks - Responsive admin template</title>
 <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
-<!--Stylesheets-->
 <?php
     $template = new Template();
     echo $template->loadCSS();
     echo $template->loadJS();
 ?>
-<meta charset="UTF-8"></head>
+<meta charset="UTF-8">
+</head>
 
 
 <body id="login_container">
