@@ -11,7 +11,7 @@ if(!$funcionCompruebaCredencialesSUSTITUIR)
 else
 {
     session_start();
-    session_name()
+    session_name("userlogin");
 ?>
 <!DOCTYPE html>
 <html>
