@@ -1,11 +1,13 @@
 <?php
-    session_start();
-    
-    include("lib/funciones.php");
-    
-    $x = new Mysql_Connect();
-    var_dump($x->mysqlSelectDB());
-    
+session_start();
+var_dump($_SESSION["usuario"]);
+unset($_SESSION["usuario"]);
+/*
+if(isset($_SESSION["usuario"]))
+{
+    header("Location: index.php");
+}
+*/
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,6 +17,8 @@
 <title>Dreamworks - Responsive admin template</title>
 <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
 <?php
+    include("lib/funciones.php");
+    
     $template = new Template();
     echo $template->loadCSS();
     echo $template->loadJS();
@@ -24,16 +28,24 @@
 
 
 <body id="login_container">
-<!--Dreamworks Container-->
+<!--Container-->
 <div id="dreamworks_container">
 
 	<div id="login">
     	<img src="./images/logo_login.png" />
-        <form action="index.php" method="post">
-        	<div class="input_box"> <span class="iconsweet">a</span><input placeholder="Usuario" name="user" type="text" id="username"></div>
-            <div class="input_box"> <span class="iconsweet">y</span><input placeholder="Contraseña" name="pass" type="password" id="password"></div>
+        <form method="post" name="login" action="checklogin.php">
+	    <div class="input_box">
+		<span class="iconsweet">a</span>
+		<input type="text" placeholder="Usuario" name="user" id="username">
+	    </div>
+            <div class="input_box">
+		<span class="iconsweet">y</span>
+		<input type="password" placeholder="Contraseña" name="pass"  id="password">
+	    </div>
             <!-- <div> <a class="forgot_password" href="#">Have you forgotten your password?</a> <input name="" type="submit" value="Login"></div> -->
-            <div><input name="" type="submit" value="Entrar"></div>
+            <div>
+		<input name="" type="submit" value="Entrar">
+	    </div>
         </form>
     </div>
 </div>

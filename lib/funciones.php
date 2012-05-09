@@ -70,14 +70,16 @@ class Template{
 
 class Mysql_Connect{
 	// Usado en las queries !!!!!!!!!!!!
-	public function mysqlConnect()
+	public function connect()
 	{
-		return mysql_connect(DB_HOST, DB_USER, DB_PASSWORD)or die("<h1>No se pudo realizar la conexión a la BD.</h1>");
+		$this->conection = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD)or die("<h1>No se pudo realizar la conexión a la BD.</h1>");
+		return $this->conection;
 	}
 	
-	public function mysqlSelectDB()
+	public function selectDB()
 	{
-		return mysql_select_db(DB_NAME, $this->mysqlConnect())or die("<h1>Error al seleccionar la base de datos.</h1>");
+		$this->select_db = mysql_select_db(DB_NAME, $this->connect())or die("<h1>Error al seleccionar la base de datos.</h1>");
+		return $this->select_db;
 	}
 }
 
@@ -87,12 +89,36 @@ class Query extends Mysql_Connect{
 	private $statement = array();
 	private $where = array();
 
-	public function sentences($tabla, $sentencia, $cuando = "")
+	public function query2()
 	{
-		$this->table[] = $tabla;
-		$this->statement[] = $sentencia;
-		$this->where[] = $cuando;
+		$this->sentencia = "SELECT * FROM user";
+		$this->query = mysql_query($this->sentencia, $this->connect())or die(mysql_error());
+		return $this->query;
 		
+	}
+	
+	public function select($tabla, $sentencia, $cuando = "")
+	{
+
+	}
+	
+	public function update()
+	{
+		
+	}
+	
+	public function insert()
+	{
+		
+	}
+	
+	public function delete()
+	{
+		
+	}
+	
+	public function drop()
+	{
 		
 	}
 	
@@ -119,8 +145,20 @@ class User{
 
 	}
 
-	public function checkUser()
+	// PROVISIONAL
+	public function checkUser($us = "", $con = "")
 	{
+		$this->user = $us;
+		$this->pass = $con;
+		
+		$this->sentencia = "SELECT nID
+				    FROM user
+				    WHERE cNick = '" . mysql_real_escape_string(trim($this->user)) . "'
+				    AND
+				    cPass = '" . mysql_real_escape_string(md5($this->pass)) . "'";
+				    
+		return $this->sentencia;
+				    
 	}
 
 	public function newUser()
