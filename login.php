@@ -1,6 +1,11 @@
 <?php
+    session_start();
+    
     include("lib/funciones.php");
-    echo __PROYECTO__;
+    
+    $x = new Mysql_Connect();
+    var_dump($x->mysqlSelectDB());
+    
 ?>
 <!DOCTYPE html>
 <html>

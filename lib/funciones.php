@@ -1,6 +1,12 @@
 <?php
 // CONFIG DE LA BD //
-require_once("../config.php");
+require_once("config.php");
+
+/*
+ mysql_query("insert into alumnos(nombre,mail,codigocurso) values 
+   ('$_REQUEST[nombre]','$_REQUEST[mail]',$_REQUEST[codigocurso])", 
+   $conexion) or die("Problemas en el select".mysql_error());
+*/
 
 class Template{
 
@@ -61,30 +67,26 @@ class Template{
 }
 
 
-class Query{
+
+class Mysql_Connect{
+	// Usado en las queries !!!!!!!!!!!!
+	public function mysqlConnect()
+	{
+		return mysql_connect(DB_HOST, DB_USER, DB_PASSWORD)or die("<h1>No se pudo realizar la conexión a la BD.</h1>");
+	}
+	
+	public function mysqlSelectDB()
+	{
+		return mysql_select_db(DB_NAME, $this->mysqlConnect())or die("<h1>Error al seleccionar la base de datos.</h1>");
+	}
+}
+
+class Query extends Mysql_Connect{
 	
 	private $table = array();
 	private $statement = array();
 	private $where = array();
-	
-	public function demoQuery()
-	{
-		return mysql_query("SELECT * FROM user");
-	}
-	
-	public function conection($host_db, $user_db, $pass_db, $name_db, $prefix = "")
-	{
-	
-		$this->host = $host_db;
-		$this->user = $user_db;
-		$this->pass = $pass_db;
-		$this->namedb = $name_db;
-		$this->prefix = $prefix;
-		
-		$this->conection = mysql_connect($this->host, $this->user, $this->pass)or die("<h2>Problemas en la conexión de la base de datos.</h2>");
-		return mysql_select_db($this->namedb, $this->conection)or die("<h2>Error al seleccionar la base de datos.</h2>");
-	}
-	
+
 	public function sentences($tabla, $sentencia, $cuando = "")
 	{
 		$this->table[] = $tabla;

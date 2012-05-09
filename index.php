@@ -1,4 +1,6 @@
 <?php
+
+
 // Recoge Usuario y Contraseña para comprobar si existen en la BD
 $user = htmlentities(trim($_POST['user']));
 $pass = htmlentities(trim($_POST['pass']));

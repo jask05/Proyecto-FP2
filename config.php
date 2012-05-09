@@ -16,7 +16,7 @@ if(!defined("__PROYECTO__"))
 {
 	$path = (strtoupper(substr(PHP_OS, 0, 3)) === "WIN") ? "\\" : "/";
 	$replace = explode($path, dirname(__FILE__));
-	$dir = $replace[count($replace)-2];
+	$dir = $replace[count($replace)-1];
 	define("__PROYECTO__", $dir);
 }
 
