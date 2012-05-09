@@ -1,22 +1,6 @@
 <?php
-
-// DEFINES //
-
-# Cambia el PATH (dependiendo si se usa Windows o Linux)
-# y obtiene el nombre del directorio.
-if(!defined("__PROYECTO__"))
-{
-	$path = (strtoupper(substr(PHP_OS, 0, 3)) === "WIN") ? "\\" : "/";
-	$replace = explode($path, dirname(__FILE__));
-	$dir = $replace[count($replace)-2];
-	define("__PROYECTO__", $dir);
-}
-
-if(!defined("__URL__"))
-{
-	$url = "http://" . $_SERVER['SERVER_NAME'] . "/" . __PROYECTO__;
-	define("__URL__", $url);
-}
+// CONFIG DE LA BD //
+require_once("../config.php");
 
 class Template{
 
@@ -83,10 +67,14 @@ class Query{
 	private $statement = array();
 	private $where = array();
 	
+	public function demoQuery()
+	{
+		return mysql_query("SELECT * FROM user");
+	}
+	
 	public function conection($host_db, $user_db, $pass_db, $name_db, $prefix = "")
 	{
-		//require_once("config.php");
-		
+	
 		$this->host = $host_db;
 		$this->user = $user_db;
 		$this->pass = $pass_db;
@@ -108,6 +96,9 @@ class Query{
 	
 	
 }
+
+
+
 
 class User{
 	

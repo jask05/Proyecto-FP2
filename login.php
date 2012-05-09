@@ -1,11 +1,6 @@
 <?php
     include("lib/funciones.php");
-    
-    // Conexión a la BD
-    $db_connect = new Query();
-    $db_connect->conection("localhost", "root", "", "proyecto_fp2");
-    
-    
+    echo __PROYECTO__;
 ?>
 <!DOCTYPE html>
 <html>
