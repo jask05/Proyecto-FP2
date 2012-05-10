@@ -13,17 +13,19 @@
 	$usuario = new User();
 	
 	$comprueba = mysql_query($usuario->checkUser($_POST['user'], $_POST['pass']));
-	    
+		
 	if(mysql_num_rows($comprueba) === 1)
 	{
 	    $_SESSION["usuario"] = $_POST["user"];
+	    $_SESSION["logueo"] = TRUE;
 	    header("location: index.php");
 	}
 	else
 	{
-	    //header("Location: login.php");
-	    echo "<h2>No existe el usuario</h2>";
-	    
+	    // Definimos una cookie para que el cartel no dure más de 10 segundos
+	    $_SESSION["logueofail"] = TRUE;
+	    header("Location: login.php?loginfail=true");
+	    //var_dump($_SESSION["logueofail"]);
 	}
     }
     else

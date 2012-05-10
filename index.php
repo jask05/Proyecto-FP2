@@ -1,7 +1,9 @@
 <?php
 session_start();
 
-if(isset($_SESSION["usuario"])){
+if(isset($_SESSION["logueo"]) && empty($_SESSION["logueo"])):
+    header("Location: login.php");
+else:
     include("lib/funciones.php");
 ?>
 <!DOCTYPE html>
@@ -9,7 +11,7 @@ if(isset($_SESSION["usuario"])){
 <head>
 
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<title>Dreamworks - Responsive admin template</title>
+<title>SeGuiA - Gestor de Inventariado</title>
 <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
 <?php
     $template = new Template();
@@ -32,7 +34,6 @@ if(isset($_SESSION["usuario"])){
 </header>
 <!--Dreamworks Container-->
 <div id="dreamworks_container">
-    
     <!-- A PARTIR DE AQUÍ VA EL PHP -->
     <!--Primary Navigation-->
     <nav id="primary_nav">
@@ -51,7 +52,7 @@ if(isset($_SESSION["usuario"])){
 <nav id="secondary_nav"> 
 <!--UserInfo-->
 <dl class="user_info">
-	<dt><a href="#"><img src="./images/avatar.png" alt="" /></a></dt>
+	<dt><a href="#"><img src="./images/user-no-davatar.png" alt="" /></a></dt>
     <dd>
     <a class="welcome_user" href="#">Bienvenido,<strong> <?php echo $_SESSION['usuario']; ?></strong></a>
     <span class="log_data">Last sign in : 16:11 Feb 27th 2012</span>
@@ -344,9 +345,5 @@ if(isset($_SESSION["usuario"])){
 </body>
 </html>
 <?php
-}
-else
-{
-    header("Location: login.php");
-}
+endif;
 ?>

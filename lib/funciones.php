@@ -2,11 +2,20 @@
 // CONFIG DE LA BD //
 require_once("config.php");
 
-/*
- mysql_query("insert into alumnos(nombre,mail,codigocurso) values 
-   ('$_REQUEST[nombre]','$_REQUEST[mail]',$_REQUEST[codigocurso])", 
-   $conexion) or die("Problemas en el select".mysql_error());
-*/
+class Common{
+	private $url;
+	
+	public function setImage($ur, $al, $tit)
+	{
+		$this->url = $ur;
+		$this->alt = $al;
+		$this->title = $tit;
+		
+		$this->rs = "<img src='" . $this->url . "' alt='" . $this->alt ."' title='" . $this->title ."' />";
+		return $this->rs;
+	}
+	
+}
 
 class Template{
 
@@ -27,7 +36,13 @@ class Template{
 
 		return $this->load;		
 	}
-
+    
+	
+	/**
+	* Imprime el código javascrip para cargar las librerías
+	*
+	* @return string
+	*/
 	public function loadJS()
 	{
 		$this->load = "\n
@@ -69,17 +84,22 @@ class Template{
 
 
 class Mysql_Connect{
-	// Usado en las queries !!!!!!!!!!!!
+	
+	/**
+	* Realiza la conexión a la base de datos
+	*
+	* @return array
+	*/
 	public function connect()
 	{
-		$this->conection = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD)or die("<h1>No se pudo realizar la conexión a la BD.</h1>");
-		return $this->conection;
+	    $this->conection = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD)or die("<h1>No se pudo realizar la conexión a la BD.</h1>");
+	    return $this->conection;
 	}
 	
 	public function selectDB()
 	{
-		$this->select_db = mysql_select_db(DB_NAME, $this->connect())or die("<h1>Error al seleccionar la base de datos.</h1>");
-		return $this->select_db;
+	    $this->select_db = mysql_select_db(DB_NAME, $this->connect())or die("<h1>Error al seleccionar la base de datos.</h1>");
+	    return $this->select_db;
 	}
 }
 

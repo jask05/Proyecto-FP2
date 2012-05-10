@@ -1,13 +1,20 @@
 <?php
-session_start();
-var_dump($_SESSION["usuario"]);
-unset($_SESSION["usuario"]);
-/*
-if(isset($_SESSION["usuario"]))
-{
-    header("Location: index.php");
-}
-*/
+	session_start();
+	session_cache_limiter('nocache,private'); 
+	//var_dump($_SESSION["logueofail"]);
+
+	/*
+	$logueoFail = $_SESSION["logueofail"];
+	$logueo = $_SESSION["logueo"];
+	$usuario = $_SESSION["usuario"];
+	
+	if(@!empty($logueo) && @!empty($usuario))
+	{
+		header("Location: index.php");
+	}
+	else
+	{
+	*/    
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,19 +39,27 @@ if(isset($_SESSION["usuario"]))
 <div id="dreamworks_container">
 
 	<div id="login">
-    	<img src="./images/logo_login.png" />
+    	<img src="images/logo_login.png" />
         <form method="post" name="login" action="checklogin.php">
-	    <div class="input_box">
-		<span class="iconsweet">a</span>
-		<input type="text" placeholder="Usuario" name="user" id="username">
+			<div class="input_box">
+			<span class="iconsweet">a</span>
+			<input type="text" placeholder="Usuario" name="user" id="username" required>
 	    </div>
-            <div class="input_box">
-		<span class="iconsweet">y</span>
-		<input type="password" placeholder="Contraseña" name="pass"  id="password">
+        
+		<div class="input_box">
+			<span class="iconsweet">y</span>
+			<input type="password" placeholder="Contraseña" name="pass" id="password" required>
 	    </div>
-            <!-- <div> <a class="forgot_password" href="#">Have you forgotten your password?</a> <input name="" type="submit" value="Login"></div> -->
-            <div>
-		<input name="" type="submit" value="Entrar">
+<?php
+		if(!empty($_GET["loginfail"])):
+?>
+			<div style="color:red;">Usuario o Contraseña incorrectos</div>
+<?php
+		endif;
+?>
+			<!-- <div> <a class="forgot_password" href="#">Have you forgotten your password?</a> <input name="" type="submit" value="Login"></div> -->
+        <div>
+			<input type="submit" value="Entrar">
 	    </div>
         </form>
     </div>
@@ -52,3 +67,6 @@ if(isset($_SESSION["usuario"]))
 
 </body>
 </html>
+<?php
+//}
+?>
