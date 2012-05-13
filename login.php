@@ -1,8 +1,10 @@
 <?php
 	session_start();
 	session_cache_limiter('nocache,private'); 
-	//var_dump($_SESSION["logueofail"]);
-
+	var_dump($_SESSION["logueofail"]);
+	
+	//$_SESSION["logueofail"] = FALSE;
+	
 	/*
 	$logueoFail = $_SESSION["logueofail"];
 	$logueo = $_SESSION["logueo"];
@@ -41,25 +43,30 @@
 	<div id="login">
     	<img src="images/logo_login.png" />
         <form method="post" name="login" action="checklogin.php">
-			<div class="input_box">
-			<span class="iconsweet">a</span>
-			<input type="text" placeholder="Usuario" name="user" id="username" required>
+	    <div class="input_box">
+		<span class="iconsweet">a</span>
+		<input type="text" placeholder="Usuario" name="user" id="username" required>
 	    </div>
         
-		<div class="input_box">
-			<span class="iconsweet">y</span>
-			<input type="password" placeholder="Contraseña" name="pass" id="password" required>
+	    <div class="input_box">
+		<span class="iconsweet">y</span>
+		<input type="password" placeholder="Contraseña" name="pass" id="password" required>
 	    </div>
-<?php
-		if(!empty($_GET["loginfail"])):
-?>
-			<div style="color:red;">Usuario o Contraseña incorrectos</div>
-<?php
-		endif;
-?>
-			<!-- <div> <a class="forgot_password" href="#">Have you forgotten your password?</a> <input name="" type="submit" value="Login"></div> -->
-        <div>
-			<input type="submit" value="Entrar">
+	    <!--
+	    <div>
+		<a class="forgot_password" href="#">Have you forgotten your password?</a>
+		<input name="" type="submit" value="Login">
+	    </div>
+	    -->
+	    <div>
+	    <?php
+	    if(isset($_GET["loginfail"]) == TRUE):
+	    ?>
+		<span>Usuario o Contraseña Incorrectos</span>
+	    <?php
+	    endif;
+	    ?>
+		<input type="submit" value="Entrar" id="entrar">
 	    </div>
         </form>
     </div>

@@ -74,8 +74,9 @@ class Template{
 		<script type='text/javascript' src='". __URL__ . "/js/fancybox/jquery.fancybox-1.3.4.pack.js'></script>
 		<script type='text/javascript' src='". __URL__ . "/js/fancybox/jquery.mousewheel-3.0.4.pack.js'></script>
 		<script type='text/javascript' src='". __URL__ . "/js/highlight.js'></script>
-		<script type='text/javascript' src='". __URL__ . "/js/main.js'> </script>";
-
+		<script type='text/javascript' src='". __URL__ . "/js/main.js'> </script>
+		<script type='text/javascript' src='". __URL__ . "/js/ajax.js'> </script>";
+		
 		return $this->load;
 	}
 

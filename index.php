@@ -1,10 +1,15 @@
 <?php
 session_start();
 
-if(isset($_SESSION["logueo"]) && empty($_SESSION["logueo"])):
+include("lib/funciones.php");
+
+if(empty($_SESSION["logueo"])){
     header("Location: login.php");
-else:
-    include("lib/funciones.php");
+}
+
+// Asociación de Parámetros
+$user = $_SESSION["usuario"];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -52,9 +57,9 @@ else:
 <nav id="secondary_nav"> 
 <!--UserInfo-->
 <dl class="user_info">
-	<dt><a href="#"><img src="./images/user-no-davatar.png" alt="" /></a></dt>
+	<dt><a href="#"><img src="./images/avatar.png" alt="" /></a></dt>
     <dd>
-    <a class="welcome_user" href="#">Bienvenido,<strong> <?php echo $_SESSION['usuario']; ?></strong></a>
+    <a class="welcome_user" href="#">Bienvenido,<strong> <?php echo $user; ?></strong></a>
     <span class="log_data">Last sign in : 16:11 Feb 27th 2012</span>
     <a class="logout" href="logout.php">Salir</a>
     <a class="user_messages" href="#"><span>12</span></a>
@@ -344,6 +349,3 @@ else:
 
 </body>
 </html>
-<?php
-endif;
-?>

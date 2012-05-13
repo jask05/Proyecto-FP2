@@ -6,7 +6,7 @@ define("DB_NAME", "proyecto_fp2");
 define("DB_USER", "root");
 
 /** Tu contraseña de MySQL */
-define("DB_PASSWORD", "jask");
+define("DB_PASSWORD", "jaskito");
 
 /** Host de MySQL (es muy probable que no necesites cambiarlo) */
 define("DB_HOST", "localhost");
