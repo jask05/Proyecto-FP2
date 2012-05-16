@@ -1,14 +1,18 @@
 <?php
+session_cache_limiter("nocache,private");
 session_start();
 
 include("lib/funciones.php");
 
-if(empty($_SESSION["logueo"])){
-    header("Location: login.php");
+if(empty($_SESSION["logueo"]) && $_SESSION["logueo"] != TRUE){
+    header("Location: " . __URL__ . "/login.php");
+    
 }
 
 // Asociación de Parámetros
-$user = $_SESSION["usuario"];
+$user 	= $_SESSION["usuario"];
+$id	= $_SESSION["usuarioID"];
+$permiso= $_SESSION["permiso"];
 
 ?>
 <!DOCTYPE html>
@@ -16,7 +20,7 @@ $user = $_SESSION["usuario"];
 <head>
 
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<title>SeGuiA - Gestor de Inventariado</title>
+<title>Seguia - Gestión de Inventariado</title>
 <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
 <?php
     $template = new Template();
@@ -32,7 +36,7 @@ $user = $_SESSION["usuario"];
     <!--Search-->
     <div class="header_search">
         <form action="">
-            <input type="text" name="search" placeholder="Search" id="ac">
+            <input type="text" name="search" placeholder="Buscar" id="ac">
             <input type="submit" value="">
         </form>
     </div>
@@ -43,8 +47,17 @@ $user = $_SESSION["usuario"];
     <!--Primary Navigation-->
     <nav id="primary_nav">
         <ul>
-            <li class="nav_dashboard active"><a href="./index.html">Dashboard</a></li>
-            <li class="nav_graphs"><a href="./charts.html">Graphs</a></li>
+            <li class="nav_dashboard active"><a href="./index.php">Inicio</a></li>
+            <li class="nav_graphs"><a href="<?php echo "./index.php?d=stock";?>">Inventario</a></li>
+	    <li class="nav_uielements"><a href="<?php echo "./index.php?d=report";?>">Reporte</a></li>
+	    <?php
+	    if(@!empty($permiso) && $permiso == 1):
+	    ?>
+	    <li class="nav_pages"><a href="<?php echo "./index.php?d=admin";?>">Administración</a></li>
+	    <?php
+	    endif;
+	    ?>
+	    <li class="nav_graphs"><a href="./charts.html">Graphs</a></li>
             <li class="nav_forms"><a href="./forms.html">Forms</a></li>
             <li class="nav_typography"><a href="./typography.html">Typography</a></li>
             <li class="nav_uielements"><a href="./ui_elements.html">UI Elements</a></li>
@@ -67,8 +80,9 @@ $user = $_SESSION["usuario"];
 </dl>
 <h2>Dashboard</h2>
 <ul>
-	<li><a href="#"><span class="iconsweet">a</span>User Profiles</a></li>
-    <li><a href="#"><span class="iconsweet">k</span>Admin Tools</a></li>
+    <li><a href="#"><span class="iconsweet">a</span>User Profiles</a></li>
+    <!-- <li><a href="#"><span class="iconsweet">k</span>Admin Tools</a></li> -->
+    <li><a href="#"><span class="iconsweet">k</span>Administración</a></li>
     <li><a href="#"><span class="iconsweet">o</span>Milestornes</a></li>
     <li><a href="#"><span class="iconsweet">S</span>Worklog</a></li>
 </ul>

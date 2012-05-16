@@ -25,17 +25,18 @@
 	    $_SESSION["permiso"] = $datos["bPermission"];	// Permiso Admin (1) o No (0)
 	    $_SESSION["logueo"] = TRUE;				// Logueo correcto
 	    
-	    header("Location: " . __URL__ . "/index.php");
+	    header("location: index.php");
 	}
 	else
 	{
 	    // Fallo en el login
-	    header("Location: " . __URL__ . "/login.php?loginfail=true");
+	    header("Location: login.php?loginfail=true");
 	}
     }
     else
     {
 	unset($_SESSION);
-	header("Location: " . __URL__ . "/login.php");
+	header("Location: login.php");
+	//echo "<h2>No se ha pasado el post user.</h2>";
     }
 ?>

@@ -19,9 +19,10 @@ class Common{
 
 class Template{
 
+
 	public function loadCSS()
 	{
-		$this->load = "<!--Stylesheets-->
+		$this->load = "<!--Stylesheets--> \n
 		<link rel='stylesheet' href='". __URL__ . "/css/reset.css' />
 		<link rel='stylesheet' href='". __URL__ . "/css/main.css' />
 		<link rel='stylesheet' href='". __URL__ . "/css/typography.css' />
@@ -33,8 +34,8 @@ class Template{
 		<link rel='stylesheet' href='". __URL__ . "/css/bootstrap.css' />
 		<link rel='stylesheet' href='". __URL__ . "/js/fancybox/jquery.fancybox-1.3.4.css' />
 		<link rel='stylesheet' href='". __URL__ . "/css/highlight.css' />";
-
-		return $this->load;		
+		
+		return $this->load;
 	}
     
 	
@@ -110,14 +111,6 @@ class Query extends Mysql_Connect{
 	private $statement = array();
 	private $where = array();
 
-	public function query2()
-	{
-		$this->sentencia = "SELECT * FROM user";
-		$this->query = mysql_query($this->sentencia, $this->connect())or die(mysql_error());
-		return $this->query;
-		
-	}
-	
 	public function select($tabla, $sentencia, $cuando = "")
 	{
 
@@ -149,7 +142,7 @@ class Query extends Mysql_Connect{
 
 
 
-class User{
+class User extends Mysql_Connect{
 	
 	private $id;
 	private $user;
@@ -166,19 +159,30 @@ class User{
 
 	}
 
-	// PROVISIONAL
-	public function checkUser($us = "", $con = "")
+	/**
+	* Comprueba si existe un usuario. De ser así devuelve su ID y su permiso
+	*
+	* @ string $us
+	* @ string $con (optional)
+	* @ return mysql array
+	*/
+	public function checkUser($us, $con = "")
 	{
 		$this->user = $us;
 		$this->pass = $con;
 		
-		$this->sentencia = "SELECT nID
+		$this->sentencia = "SELECT nID, bPermission
 				    FROM user
-				    WHERE cNick = '" . mysql_real_escape_string(trim($this->user)) . "'
-				    AND
-				    cPass = '" . mysql_real_escape_string(md5($this->pass)) . "'";
+				    WHERE cNick = '" . mysql_real_escape_string(trim($this->user)) ."'";
 				    
-		return $this->sentencia;
+		if(isset($this->pass) AND !empty($this->pass))
+		{
+		    $this->sentencia .= " AND cPass = '" . mysql_real_escape_string(md5($this->pass)) . "'";   
+		}
+				    
+				    
+		return mysql_query($this->sentencia);
+		//return $this->sentencia;
 				    
 	}
 

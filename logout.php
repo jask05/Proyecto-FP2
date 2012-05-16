@@ -1,8 +1,10 @@
 <?php
 session_start();
 
-unset($_SESSION["usuario"]);
+include("lib/funciones.php");
+
+session_unset($_SESSION);
 session_destroy();
 
-header("Location: login.php");
+header("Location: " . __URL__ . "/login.php");
 ?>

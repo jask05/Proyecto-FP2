@@ -1,22 +1,14 @@
 <?php
-	session_start();
-	session_cache_limiter('nocache,private'); 
-	var_dump($_SESSION["logueofail"]);
-	
-	//$_SESSION["logueofail"] = FALSE;
-	
-	/*
-	$logueoFail = $_SESSION["logueofail"];
-	$logueo = $_SESSION["logueo"];
-	$usuario = $_SESSION["usuario"];
-	
-	if(@!empty($logueo) && @!empty($usuario))
-	{
-		header("Location: index.php");
-	}
-	else
-	{
-	*/    
+session_start();
+
+include("lib/funciones.php");
+
+if(@!empty($_SESSION["logueo"]) && $_SESSION["logueo"] === TRUE)
+{
+    header("Location: " . __URL__ . "/index.php");
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,10 +17,9 @@
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <title>Dreamworks - Responsive admin template</title>
 <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
-<?php
-    include("lib/funciones.php");
-    
+<?php   
     $template = new Template();
+    //$css = array("reset", "main", "typography", "tipsy");
     echo $template->loadCSS();
     echo $template->loadJS();
 ?>
