@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-05-2012 a las 17:50:38
+-- Tiempo de generación: 18-05-2012 a las 00:07:24
 -- Versión del servidor: 5.5.22
 -- Versión de PHP: 5.3.10-1ubuntu3.1
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 -- Creación: 13-05-2012 a las 15:46:23
 --
 
+DROP TABLE IF EXISTS `city`;
 CREATE TABLE IF NOT EXISTS `city` (
   `nID` smallint(11) NOT NULL AUTO_INCREMENT,
   `cName` varchar(50) CHARACTER SET utf8 NOT NULL,
@@ -42,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `city` (
 -- Creación: 13-05-2012 a las 15:49:22
 --
 
+DROP TABLE IF EXISTS `cityuser`;
 CREATE TABLE IF NOT EXISTS `cityuser` (
   `nID` smallint(11) NOT NULL AUTO_INCREMENT,
   `nCityID` smallint(11) NOT NULL,
@@ -57,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `cityuser` (
 -- Creación: 13-05-2012 a las 15:48:21
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `nID` smallint(11) unsigned NOT NULL AUTO_INCREMENT,
   `cNick` varchar(45) CHARACTER SET utf8 NOT NULL,
