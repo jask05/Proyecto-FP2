@@ -31,8 +31,9 @@ if(!defined("__URL__"))
 {
     if($_SERVER["SERVER_NAME"] == "localhost"){
         $path = (strtoupper(substr(PHP_OS, 0, 3)) === "WIN") ? "\\" : "/";       
-        $replace = explode($_SERVER['DOCUMENT_ROOT'], dirname(__FILE__));
-        $dir = "http://" . $_SERVER["SERVER_NAME"] . $replace[1];
+	$replace = explode($path, dirname(__FILE__));
+	$countReplace = count($replace);
+	$dir = "http://" . $_SERVER["SERVER_NAME"] . "/" . $replace[$countReplace-1];
     }
     else
     {
