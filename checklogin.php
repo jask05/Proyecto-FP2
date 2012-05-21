@@ -3,24 +3,12 @@
     
     // Conexión con la BD
     include("lib/funciones.php");
-?>
-<!DOCTYPE html>
-<html>
-<head>
-
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-    <title>Comprobando credenciales</title>
-    <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
-<?php   
+  
     $template = new Template();
     //$css = array("reset", "main", "typography", "tipsy");
     echo $template->loadCSS();
     echo $template->loadJS();
-?>
-    <meta charset="UTF-8">
-</head>
-<body>
-<?php
+
     $user = $_POST["user"];
     $pass = $_POST["pass"];
     
@@ -56,5 +44,3 @@
 	header("Location: " . __URL__ . "/login.php");
     }
 ?>
-</body>
-</html>

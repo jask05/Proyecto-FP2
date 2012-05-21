@@ -42,32 +42,4 @@ if(!defined("__URL__"))
 	
     define("__URL__", $dir);
 }
-
-
-/** Cambia el PATH (dependiendo si se usa Windows o Linux) y obtiene el nombre del directorio. 
-if(!defined("__PROYECTO__"))
-{
-    if($_SERVER["SERVER_NAME"] == "localhost"){
-        $path = (strtoupper(substr(PHP_OS, 0, 3)) === "WIN") ? "\\" : "/";
-        $replace = explode($path, dirname(__file__));
-        $dir = $replace[count($replace)-1];
-    
-        $quito1 = explode($_SERVER['DOCUMENT_ROOT'], dirname(__FILE__));
-    
-        $dir = "http://" . $_SERVER["SERVER_NAME"] . $quito1[1];
-    }
-    else
-    {
-        $dir = "http://" . $_SERVER["SERVER_NAME"];
-    }
-}
-**/
-
-
-/** Ruta absoluta del directorio raíz 
-if(!defined("__RAIZ__"))
-{
-    define("__RAIZ__", $_SERVER['DOCUMENT_ROOT'] . "/" . __PROYECTO__);
-}
-**/
 ?>
