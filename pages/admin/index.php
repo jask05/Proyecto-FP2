@@ -119,7 +119,7 @@ else:
 					    <label>Ciudad</label>
 					    <div class="form_input">
 						<select name="">
-						    <option>Select</option>
+						    <option>Selecciona 1 o más</option>
 						    <option>value 1</option>
 						    <option>value 2</option>
 						    <option>value 3</option>
@@ -163,22 +163,24 @@ else:
 			    </div>
 			    
 			    <!-- Añadir Ciudad -->
-			    <div class="one_two_wrap fl_right">
-				<!--List Tick-->
-				<div class="widget">
-				    <div class="widget_title"><span class="iconsweet">1</span>
-					<h5>Añadir Ciudad</h5>
-				    </div>
-				    <ul class="form_fields_container">
-					<li><label>Ciudad</label> <div class="form_input"><input name="" type="text"></div></li>
-				    </ul>
-				    <div class="action_bar">
-					<a href="#" class="button_small whitishBtn">
-					    <span class="iconsweet">=</span>Añadir
-					</a>
+			    <form action="" id="demoForm" method="post">
+				<div class="one_two_wrap fl_right" id="test">
+				    <!--List Tick-->
+				    <div class="widget">
+					<div class="widget_title"><span class="iconsweet">1</span>
+					    <h5>Añadir Ciudad</h5>
+					</div>
+					<ul class="form_fields_container">
+					    <li><label>Ciudad</label> <div class="form_input"><input name="cityName" id="nombreCiudad" type="text"></div></li>
+					</ul>
+					<div class="action_bar">
+					    <a class="button_small whitishBtn" id="addCity">
+						<span class="iconsweet">=</span>Añadir
+					    </a>
+					</div>
 				    </div>
 				</div>
-			    </div>
+			    </form>
 			    
 			    <!-- Buscar Usuario -->
 			    <div class="one_two_wrap fl_right">

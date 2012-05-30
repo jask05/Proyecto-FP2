@@ -2,7 +2,7 @@
     session_start();
     
     // Conexión con la BD
-    include("lib/funciones.php");
+    include("funciones.php");
   
     $template = new Template();
     //$css = array("reset", "main", "typography", "tipsy");

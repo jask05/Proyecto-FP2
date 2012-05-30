@@ -2,7 +2,7 @@
 session_cache_limiter("nocache,private");
 session_start();
 
-include("lib/funciones.php");
+include("funciones.php");
 
 if(empty($_SESSION["logueo"]) && $_SESSION["logueo"] != TRUE){
     header("Location: " . __URL__ . "/login.php");

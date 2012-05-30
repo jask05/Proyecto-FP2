@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include("lib/funciones.php");
+include("funciones.php");
 
 if(@!empty($_SESSION["logueo"]) && $_SESSION["logueo"] === TRUE)
 {
