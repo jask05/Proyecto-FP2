@@ -8,14 +8,16 @@ else:
     	<div id="activity_stats">
         	<h3>Activity</h3>
             <div class="activity_column">
-            	<span class="iconsweet">+</span> <span class="big_txt rd_txt">12</span>Added
+            	<span class="iconsweet">+</span> <span class="big_txt rd_txt">12</span>Usuarios
             </div>
             <div class="activity_column">
-            	<span class="iconsweet">Y</span> <span class="big_txt gr_txt">6</span>Flagged
+            	<span class="iconsweet">Y</span> <span class="big_txt gr_txt">6</span>Ciudades
             </div>
+	    <!--
             <div class="activity_column">
             	<span class="iconsweet">#</span> <span class="big_txt">2</span>Answer pending
-            </div>                         
+            </div>
+            -->
         </div>                  
         <!--Quick Actions-->
         <div id="quick_actions">
@@ -60,33 +62,6 @@ else:
 				<?php
 				endwhile;
 				?>
-				<!--
-				<tr>
-				    <td>3568</td>
-				    <td><span class="grey_highlight pj_cat">Flex</span></td>
-				    <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-				    <td><span class="stat_down">12% <span class="arrow_up iconsweet">[</span></span></td>
-				    <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>                    </tr>
-				<tr>
-				    <td>4923</td>
-				    <td><span class="green_highlight pj_cat">Android</span></td>
-				    <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-				    <td><span class="stat_down">72% <span class="arrow_up iconsweet">[</span></span></td>
-				    <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>                    </tr>
-				<tr>
-				    <td>4923</td>
-				    <td><span class="grey_highlight pj_cat">Flex</span></td>
-				    <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-				    <td><span class="stat_up">72% <span class="arrow_up iconsweet">]</span></span></td>
-				    <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>                    </tr>
-				<tr>
-				    <td>4923</td>
-				    <td><span class="blue_highlight pj_cat">JAVA</span></td>
-				    <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-				    <td><span class="stat_down">44% <span class="arrow_up iconsweet">[</span></span></td>
-				    <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>                    
-				</tr>
-				-->
 			    </table>
 			</div>
 			<div class="widgets_wrap">
@@ -99,63 +74,52 @@ else:
 				    </div>
 				    <!--Form fields-->
 				    <ul class="form_fields_container">
-					<li><label>Nombre </label> <div class="form_input"><input name="" type="text"></div></li>
-					<li><label>Clave</label> <div class="form_input"><input name="" type="password"></div></li>
-					<!--
-					<li><label>Readonly Input</label> <div class="form_input"><input type="text" value="Read only" readonly="readonly"></div></li>
-					<li><label>Disabled Input</label> <div class="form_input"><input type="text" value="Disabled" disabled="disabled"></div></li>
-					<li><label>Input with Value</label> <div class="form_input"><input type="text" value="This is the value"></div></li>
-					<li><label>Input with Tooltip</label> <div class="form_input"><input class="tip_east" type="text" value="" title="Tip"></div></li>
-					<li><label>Input Processing</label> <div class="form_input"><input class="in_processing" type="text" value=""></div></li>
-					<li><label>Input Submitted</label> <div class="form_input"><input class="in_submitted" type="text" value=""></div></li>
-					<li><label>Input Warning</label> <div class="form_input"><input class="in_warning" type="text" value=""></div></li>
-					<li><label>Input Error</label> <div class="form_input"><input class="in_error" type="text" value=""></div></li>
-					<li><label>Regular Textarea</label> <div class="form_input"><textarea name="" cols="" rows="6"></textarea></div></li>
-					<li><label>Autogrowing Textarea</label> <div class="form_input"><textarea class="auto" id="txtInput" name="growingTextarea" cols="" rows="6"></textarea></div></li>
-					-->
+					<li>
+					    <label>Nombre </label>
+					    <div class="form_input">
+						<input name="userNick" id="userNick" type="text">
+					    </div>
+					</li>
+					<li>
+					    <label>Clave</label>
+					    <div class="form_input">
+						<input name="userPass" id="userPass"  type="password">
+					    </div>
+					</li>
 				    </ul>
 				    <ul class="form_fields_container">
 					<li>
 					    <label>Ciudad</label>
 					    <div class="form_input">
-						<select name="">
-						    <option>Selecciona 1 o más</option>
-						    <option>value 1</option>
-						    <option>value 2</option>
-						    <option>value 3</option>
+						<?php
+						$verCiudad = new City();
+						?>
+						<select name="selectCityNewUser" id="selectCityNewUser">
+						    <option value="0" selected="selected">Seleccione una ciudad</option>
+						    <?php
+						    $objCity = $verCiudad->showCity();
+						    while($rsCity = mysql_fetch_assoc($objCity))
+						    {
+							echo "<option value='" . $rsCity['nID'] . "'>" . html_entity_decode($rsCity['cName']) . "</option>";
+						    }
+						    ?>
 						</select>
 					    </div>
 					</li>
-					<!--
-					<li>
-					    <label>Checkbox</label>
-					    <div class="form_input">
-						<input id="check1" type="checkbox">
-						<label for="check1">Checkbox - Un Checked</label>
-					    </div>
-					    <div class="form_input">
-						<input checked id="check1" type="checkbox">
-						<label for="check1">Checkbox - Checked</label>
-					    </div>
-					</li>
-					-->
 					<li>
 					    <label>¿Administrador?</label>
 					    <div class="form_input">
-						<input id="radio1" name="radio" type="radio" value="">
-						<label for="radio1">Si</label>
+						<input id="admin" name="radio" type="radio" value="1">
+						<label for="isAdmin">Si</label>
 					    </div>
 					    <div class="form_input">
-						<input id="radio1" name="radio" type="radio" value="">
-						<label for="radio1">No</label>
+						<input id="noAdmin" name="radio" type="radio" value="0">
+						<label for="isAdmin">No</label>
 					    </div>
 					</li>
 				    </ul>
 				    <div class="action_bar">
-					<a href="#" class="button_small whitishBtn">
-					    <span class="iconsweet">l</span>Borrar
-					</a>
-					<a href="#" class="button_small bluishBtn fl_right">
+					<a class="button_small bluishBtn" id="newUser">
 					    <span class="iconsweet">=</span>Guardar
 					</a>
 				    </div>

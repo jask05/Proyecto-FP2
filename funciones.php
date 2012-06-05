@@ -167,22 +167,7 @@ class Template{
 	    
 	    return $this->load;
     }
-
-    /*
-     <div class="msgbar msg_Info hide_onC">
-	<span class="iconsweet">*</span><p>This is a Information message.</p>
-    </div>
-    <div class="msgbar msg_Success hide_onC">
-	<span class="iconsweet">=</span><p>This is a Success message.</p>
-    </div>  
-    <div class="msgbar msg_Error hide_onC">
-	<span class="iconsweet">X</span><p>This is a Error message.</p>
-    </div>      
-    <div class="msgbar msg_Alert hide_onC">
-	<span class="iconsweet">!</span><p>This is a Warning message.</p>
-    </div> 
-    */
-    
+   
     /**
     * Muestra un cartel según se le vayan pasando diferentes parámetros
     *
@@ -376,10 +361,44 @@ class User extends Mysql_Connect{
 		//return $this->sentencia;
 				    
 	}
-
-	public function newUser()
+	
+	/**
+	* Inserta un nuevo usuario en la BD
+	*
+	* @ string 	$name
+	* @ string 	$pass
+	* @ bol 	$admin
+	* @ return mysql array
+	*/
+	public function newUser($name, $pss, $admin, $cty)
 	{
-
+	    $this->nick = $name;
+	    $this->userPass = $pss;
+	    $this->permission = $admin;
+	    $this->city = $cty;
+	    
+	    // Check if user exists
+	    $this->checkUser = mysql_num_rows($this->checkUser($this->nick));
+	    
+	    if($this->checkUser >= 1){
+		return FALSE;	// User exists
+	    }
+	    else{
+		$this->sentencia = "INSERT INTO user (cNick, cPass, bPermission) VALUES ('" . $this->nick . "', '" . $this->userPass . "', " . $this->permission . ")";
+		
+		
+		$this->insertUser = mysql_query($this->sentencia)or die(mysql_error());
+		$this->insertedUserID = mysql_insert_id();
+		$this->sentenciaCityUser = "INSERT INTO cityuser (nCityID, nUserID) VALUES (" . $this->city . ", " . $this->insertedUserID . ")";
+		
+		if($this->insertedCityUser = mysql_query($this->sentenciaCityUser)){
+		    return TRUE;
+		}
+		else{
+		    return FALSE;
+		}
+	    }
+	    
 	}
 
 	public function editUser()
@@ -428,7 +447,7 @@ class City extends Mysql_Connect{
 				
 			// Adding new city name
 			$this->sentencia = "INSERT INTO city (cName) VALUES ('". $this->name ."')";
-			
+					
 			if(mysql_query($this->sentencia)){
 				return TRUE;
 			}
@@ -442,6 +461,17 @@ class City extends Mysql_Connect{
 
 	}
 	
+	/**
+	* Muestra un listado de todas las ciudades.
+	*
+	* @ return mysql array
+	*/
+	public function showCity(){
+		$this->sentencia = "SELECT nID, cName
+				    FROM city";
+				    
+		return mysql_query($this->sentencia);
+	}
 	
 }
 

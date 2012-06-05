@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include("lib/funciones.php");
+include("funciones.php");
 
 session_unset($_SESSION);
 session_destroy();
