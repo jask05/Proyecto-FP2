@@ -10,7 +10,7 @@ $(document).ready(function(){
             dataType: "html",
             contentType: "application/x-www-form-urlencoded",
             url: "lib/ajax.php",
-            data: "newCity="+val,
+            data: "newCity=1&newCityName="+val,
             beforeSend: function(){
                     nombreCiudad.addClass("in_processing");
                 },
@@ -84,47 +84,63 @@ $(document).ready(function(){
             contentType: "application/x-www-form-urlencoded",
             url: "lib/ajax.php",
             data: "newUser=1&nick="+nick.val()+"&pass="+pass.val()+"&city="+city.val()+"&admin="+permission,
-            /*
-            beforeSend: function(){
-                    nombreCiudad.addClass("in_processing");
-                },
-            */
             success: function(datos){
                     alert("El usuario se creó corréctamente");
                     location.reload();
-                    /*
-                     
-                        hacer que cuando se añada el usuario salga la modal windows
-                        y cuando le de a aceptar refresque la página :)
-                     
-                    if(datos != 1)
-                    {
-                        nombreCiudad.val("La ciudad no se ha añadido. Puede que ya exista.");
-                        nombreCiudad.removeClass().addClass("in_error");
-                        setTimeout(function(){
-                            nombreCiudad.removeClass().val("");
-                        },5000);
-                    }
-                    else
-                    {
-                        nombreCiudad.removeClass().addClass('in_submitted');
-                        nombreCiudad.val("La ciudad se ha creado corréctamente");
-                        setTimeout(function(){
-                            nombreCiudad.slideUp(600).removeClass().val("").fadeIn(800);
-                        },5000);
-                    }
-                    */
                 },
             error: function(){
-                alert("No llegaron");
-                /*
-                nombreCiudad.val("La ciudad no se ha añadido. Puede que ya exista.");
-                nombreCiudad.removeClass().addClass("in_error");
-                */
+                alert("Ha ocurrido un error. Por favor vuelva a intentarlo.");
             },
             timeout: 4000
         });
        
     });
     
+    // Borrar un usuario
+    $('[name="deluser"]').click(function(){
+       var idUserToDel = this.id;
+       $('#confirmDeleteUser').click(function(){
+            $.ajax({
+                async: true,
+                type: "POST",
+                dataType: "html",
+                contentType: "application/x-www-form-urlencoded",
+                url: "lib/ajax.php",
+                data: "delUser="+idUserToDel,
+                success: function(datos){
+                        alert("El usuario se ha borrado corréctamente");
+                        location.reload();
+                    },
+                error: function(){
+                    alert("Ha ocurrido un error. Por favor vuelva a intentarlo.");
+                },
+                timeout: 4000
+            });
+       });
+    });
+    
+    // Muestra info del usuario
+    $('[name="showInfoUse"]').click(function(){
+       var idUserToShow = this.id;
+       /*
+       $('#confirmDeleteUser').click(function(){
+            $.ajax({
+                async: true,
+                type: "POST",
+                dataType: "html",
+                contentType: "application/x-www-form-urlencoded",
+                url: "lib/ajax.php",
+                data: "delUser="+idUserToDel,
+                success: function(datos){
+                        alert("El usuario se ha borrado corréctamente");
+                        location.reload();
+                    },
+                error: function(){
+                    alert("Ha ocurrido un error. Por favor vuelva a intentarlo.");
+                },
+                timeout: 4000
+            });
+       });
+       */
+    });
 });

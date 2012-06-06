@@ -411,14 +411,67 @@ class User extends Mysql_Connect{
 
 	}
 
-	public function deleteUser()
+	/**
+	* Borra un usuario de la BD
+	*
+	* @ int		$ide
+	* @ return TRUE || FALSE 
+	*/
+	public function deleteUser($ide)
 	{
-
+	    $this->id = $ide;
+	    $this->sentencia = "DELETE FROM user
+				WHERE nID = " . $this->id;
+				
+	    if(mysql_query($this->sentencia)){
+		if($this->deleteCityUser($this->id)){
+		    return TRUE;    
+		}
+		else{
+		    return FALSE;
+		}
+	    }
+	    else{
+		return FALSE;
+	    }
 	}
 
+	/**
+	* Borra las ciudades que tiene asociada el usuario
+	*
+	* @ int 	$ideUser
+	* @ return TRUE || FALSE
+	*/
+	private function deleteCityUser($ideUser){
+	    $this->idUser = $ideUser;    
+	    $this->sentencia = "DELETE FROM cityuser
+				WHERE nUserID =" . $this->idUser;
+				
+	    if(mysql_query($this->sentencia)){
+		return TRUE;
+	    }
+	    else{
+		return FALSE;
+	    }
+	    
+	}
+	
 	public function banUser()
 	{
 
+	}
+	
+	/**
+	* Devuelve la cantidad de usuarios creados
+	*
+	* @ return int
+	*/
+	public function totalUser(){
+	    $this->sentencia = "SELECT nID FROM user";
+	    $this->query = mysql_query($this->sentencia);
+	    $this->total = mysql_num_rows($this->query);
+	    
+	    return $this->total;
 	}
 }
 
@@ -473,6 +526,18 @@ class City extends Mysql_Connect{
 		return mysql_query($this->sentencia);
 	}
 	
+	/**
+	* Devuelve la cantidad de ciudades creadas
+	*
+	* @ return int
+	*/
+	public function totalCity(){
+	    $this->sentencia = "SELECT nID FROM city";
+	    $this->query = mysql_query($this->sentencia);
+	    $this->total = mysql_num_rows($this->query);
+	    
+	    return $this->total;
+	}
 }
 
 ?>

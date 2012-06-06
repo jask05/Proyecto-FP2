@@ -5,15 +5,19 @@ $db = new Mysql_Connect();
 $db->selectDB();
 
 // Añadiendo una ciudad
-if(empty($_POST['newCity']) || strlen($_POST['newCity']) < 3){
-    $return = FALSE;
-    //$return = "PRIMER IF";
-}
-else{
+if(isset($_POST['newCity'])){
+    $newCityName = $_POST['newCityName'];
     $addCity = new City();
     $delSpaces = new Common();
-    $return = $addCity->newCity($delSpaces->deleteSpaces(htmlentities($_POST['newCity'])));
+    $cityParseada = $delSpaces->deleteSpaces(htmlentities($newCityName));
+    if($addCity->newCity($cityParseada)){
+        $return = TRUE;
+    }
+    else{
+        $return = FALSE;
+    }
 }
+
 
 // Añadiendo al usuario
 if(isset($_POST['newUser']) == 1){
@@ -27,6 +31,19 @@ if(isset($_POST['newUser']) == 1){
     
     $return = $newUser->newUser($user, $password, $admin,  $city);
     
+}
+
+// Borrando Usuario
+
+if(isset($_POST['delUser']) && is_numeric($_POST['delUser'])){
+    $delUser = $_POST['delUser'];
+    $byeUser = new User();
+    if($byeUser->deleteUser($delUser)){
+        $return = TRUE;
+    }
+    else{
+        $return = FALSE;
+    }
 }
 
 echo $return;
