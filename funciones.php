@@ -102,6 +102,10 @@ class Common{
 	       return $this->nombre;
 	}
 	
+	public function betweenComma($content){
+	    
+	}
+	
 }
 
 class Template{
@@ -283,69 +287,70 @@ class User extends Mysql_Connect{
 	private $id;
 	private $user;
 	
-	/*
-	public function getInfoUser($ide = "", $us = "", $lim = "", $orden = "")
-	{
-		$this->id = $ide;
-		$this->user = $us;
-		$this->limit = $lim;
-		$this->order = $orden;
-
-		$this->sentencia = "SELECT *
-				    FROM user ";
-				    
-		if(!empty($this->id) || !empty($this->user))
-		{
-		    $this->sentencia .= (is_numeric($this->id)) ? "WHERE nID = " . $this->id : "WHERE cNick = '" . $this->user . "'";
-		}
-		
-		if(isset($this->order) && $this->order != "")
-		{
-		    $this->sentencia .= " ORDER BY " . $this->order[0] . " " . $this->order[1] . " ";
-		}
-		
-		if(isset($this->limit) && is_numeric($this->limit))
-		{
-		    $this->sentencia .= "LIMIT " . $this->limit;
-		}
-
-		//return mysql_query($this->sentencia);
-		return $this->sentencia;
-	}
+	/**
+	* Muestra información de los usuarios.
+	* Se le puede pasar parámetros para que ordene o id
+	*
+	* @ array $param -> [0] (field) and [1] (ASC || DESC) = ORDER BY
+	* 		 -> [2] LIMIT
+	* @ return mysql array
 	*/
-	
-	public function getAllInfoUser($param)
+	public function getAllInfoUser($param = '', $ide = '')
 	{
 	    $this->parametros = $param;
-	    $this->sentencia = "SELECT *
-			      FROM user
-			      ORDER BY " . $this->parametros[0] . " " . $this->parametros[1] . " ";
+	    $this->id = $ide;
+	    
+	    $this->sentencia = "SELECT * FROM user";
 			      
-	    if(is_numeric($this->parametros[2]) && !empty($this->parametros[2]))
-	    {
-		$this->sentencia .= "LIMIT " . $this->parametros[2];
+	    if(isset($this->id) && is_numeric($this->id) && $this->id > 0){
+		$this->sentencia .= " WHERE nID = " . $this->id ." ";
+	    }
+	    
+	    if(isset($this->parametros) && $this->parametros != ""){
+		$this->sentencia .= " ORDER BY " . $this->parametros[0] . " " . $this->parametros[1] . " ";
+		
+		if(is_numeric($this->parametros[2]) && !empty($this->parametros[2]))
+		{
+		    $this->sentencia .= "LIMIT " . $this->parametros[2];
+		}
 	    }
 	    
 	    return mysql_query($this->sentencia);
 	    //return $this->sentencia;
 	}
 
-	public function changeInfoUser()
-	{
-
+	
+	/**
+	* Lista las ciudades que pertenecen a un usuario.
+	*
+	* @ int $ide (USER ID)
+	* @ return mysql array
+	*/
+	public function getCityUser($ide){
+	    $this->id = $ide;
+	    $this->sentencia = "SELECT city.cName
+				FROM city
+				WHERE city.nID IN (
+				    SELECT cityuser.nCityID
+				    FROM cityuser
+				    WHERE cityuser.nUserID = " . $this->id ."
+				)";
+	    
+	    return mysql_query($this->sentencia);
+	    
 	}
 
 	/**
 	* Comprueba si existe un usuario. De ser así devuelve su ID y su permiso
 	*
 	* @ string $us
-	* @ string $con (optional)
+	* @ string $contrasena (optional)
 	* @ return mysql array
 	*/
-	public function checkUser($us, $con = "")
+	public function checkUser($us, $contrasena = "")
 	{
 		$this->user = $us;
-		$this->pass = $con;
+		$this->pass = $contrasena;
 		
 		$this->sentencia = "SELECT nID, bPermission
 				    FROM user
@@ -358,8 +363,7 @@ class User extends Mysql_Connect{
 				    
 				    
 		return mysql_query($this->sentencia);
-		//return $this->sentencia;
-				    
+		//return $this->sentencia;		    
 	}
 	
 	/**
@@ -400,16 +404,40 @@ class User extends Mysql_Connect{
 	    }
 	    
 	}
-
-	public function editUser()
+	
+	/**
+	* Editar el nick, password o permission de un usuario
+	*
+	* @ string 	$param (nick || pass || perm)
+	* @ int 	$ide
+	* @ string 	$value
+	* @ return mysql array
+	*/
+	public function editUser($param, $ide, $value)
 	{
+	    $this->parametros = $param;
+	    $this->id = $ide;
+	    $this->valor = $value;
+	    
+	    $this->sentence = "UPDATE user SET ";
+	    
+	    if($this->parametros == "nick"){
+		$this->sentence .= "cNick = '" . $this->valor . "' ";
+	    }
+	    elseif($this->sentence == "pass"){
+		$this->sentence .= "cPass = '" . md5($this->valor) . "' ";
+	    }
+	    elseif($this->sentence == "perm"){
+		$this->sentence .= "bPermission = " . $this->valor . " ";
+	    }
+	    
+	    $this->sentence .= "WHERE nID = " . $this->id;
 
+	    return mysql_query($this->sentence);
+	    //return $this->sentence;
+	    
 	}
 
-	public function promoteUser()
-	{
-
-	}
 
 	/**
 	* Borra un usuario de la BD
@@ -454,6 +482,23 @@ class User extends Mysql_Connect{
 		return FALSE;
 	    }
 	    
+	}
+	
+	/**
+	* Cambia el password de un usuario
+	*
+	* @ int 	$userIDe
+	* @ string	$newPasswd
+	* @ return 	TRUE || FALSE
+	*/
+	public function changePasswd($userIDe, $newPasswd){
+	    $this->IDuser = $userIDe;
+	    $this->passwd = (strlen($newPasswd) < 16) ? md5($newPasswd) : $newPasswd;
+	    
+	    $this->sentencia = "UPDATE user SET cPass = '" . $this->passwd . "'
+				WHERE nID = " . $this->IDuser;
+				
+	    return mysql_query($this->sentencia);  
 	}
 	
 	public function banUser()

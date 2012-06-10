@@ -33,8 +33,31 @@ if(isset($_POST['newUser']) == 1){
     
 }
 
-// Borrando Usuario
+// Actualizando Nombre de Usuario
+if(isset($_POST['changeusername'])){
+    $changeusername = $_POST['changeusername'];
+    $id = $_POST['id'];
+    $changeUser = new User();
+    
+    // Comprueba que el usuario no exista
+    $check = mysql_num_rows($changeUser->checkUser($changeusername));
+    if($check == 0){
+        $return = $changeUser->editUser("nick", $id, $changeusername);
+    }
+    else{
+        $return = "error";
+    }   
+}
 
+// Actualiza contraseña de Usuario
+if(isset($_POST['newpasswd'], $_POST['userid'])){
+    $newpasswd = $_POST['newpasswd'];
+    $userid = $_POST['userid'];
+    $newPass = new User();
+    $return = $newPass->changePasswd($userid, $newpasswd);
+}
+
+// Borrando Usuario
 if(isset($_POST['delUser']) && is_numeric($_POST['delUser'])){
     $delUser = $_POST['delUser'];
     $byeUser = new User();

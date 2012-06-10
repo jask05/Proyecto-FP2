@@ -119,28 +119,106 @@ $(document).ready(function(){
        });
     });
     
-    // Muestra info del usuario
-    $('[name="showInfoUse"]').click(function(){
-       var idUserToShow = this.id;
-       /*
-       $('#confirmDeleteUser').click(function(){
-            $.ajax({
-                async: true,
-                type: "POST",
-                dataType: "html",
-                contentType: "application/x-www-form-urlencoded",
-                url: "lib/ajax.php",
-                data: "delUser="+idUserToDel,
-                success: function(datos){
-                        alert("El usuario se ha borrado corréctamente");
-                        location.reload();
+    // Comprueba y modifica la contraseña
+    var pwd1 = $('#changePass');
+    var pwd2 = $('#confirmChangePass');
+    var saveButton = $('#saveNewPassword');
+    var currentUserID = $('#currentUserID').val();
+    
+    saveButton.click(function(){
+        if(pwd1.val() != pwd2.val()){
+            pwd1.addClass('in_error');
+            pwd2.addClass('in_error');
+            alert("La contraseña que ha insertado no coinciden.");
+        }
+        else{
+            if(pwd1.val().length < 6 || pwd2.val().length < 6){
+                alert("La contraseña debe tener, por lo menos, 6 caracteres.");
+                pwd1.focus();
+            }
+            else{
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    dataType: "html",
+                    contentType: "application/x-www-form-urlencoded",
+                    url: "lib/ajax.php",
+                    data: "newpasswd="+pwd1.val()+"&userid="+currentUserID,
+                    beforeSend: function(){
+                        pwd1.addClass('in_submitted');
+                        pwd2.addClass('in_submitted');
                     },
-                error: function(){
-                    alert("Ha ocurrido un error. Por favor vuelva a intentarlo.");
-                },
-                timeout: 4000
-            });
-       });
-       */
-    });
+                    success: function(datos){
+                        if(datos == 1){
+                            pwd1.addClass('in_processing');
+                            pwd2.addClass('in_processing');
+                            alert("La contraseña se ha modificado corréctamente.");
+                            location.reload();
+                        }
+                        else{
+                            alert("Ha ocurrido un error al modificar la contraseña. Por favor inténtelo de nuevo");
+                        }   
+                        
+                    },
+                    error: function(){
+                        alert("Ha ocurrido un error. Por favor vuelva a intentarlo.");
+                    },
+                    timeout: 4000
+                });
+            }
+        }
+    })
 });
+
+// Aparece el botón de 'Guardar'
+function saveButton(buttonSaveID){
+    $(buttonSaveID).slideToggle('slow');
+}
+    
+// Actualizar nombre de usuario
+function updateUsername(){
+    var currentUsername = $('#currentUserName');
+    var currentUserID = $('#currentUserID').val();
+    
+    if(currentUsername.val() == ""){
+        alert("Debe insertar un nombre. No puede estar vacío.");
+        currentUsername.focus();
+        return false;
+    }
+    
+    $.ajax({
+        async: true,
+        type: "POST",
+        dataType: "html",
+        contentType: "application/x-www-form-urlencoded",
+        url: "lib/ajax.php",
+        beforeSend: function(){
+            currentUsername.addClass("in_processing");
+        },
+        data: "changeusername="+currentUsername.val()+"&id="+currentUserID,
+        success: function(str){
+                console.log(str);
+                if(str == "error"){
+                    alert("No se ha podido modificar el nombre. Compruebe que no exista un usuario con ese nombre.");
+                    currentUsername.addClass('in_error');
+                    currentUsername.val("");
+                    currentUsername.focus();
+                    setTimeout(function(){
+                        currentUsername.removeClass();
+                    }, 6000);
+                }
+                else{
+                    alert("El nombre de usuario ha sido modificado satisfactóriamente.");
+                    currentUsername.addClass('in_submitted');
+                    location.reload();
+                }
+            },
+        error: function(){
+            alert("Error interno. Por favor contacte con un administrador.");
+            currentUsername.addClass("in_error");
+        },
+        timeout: 4000
+    });
+    
+    return true;
+}

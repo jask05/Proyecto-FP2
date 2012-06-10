@@ -5,7 +5,13 @@ if($permiso != 1):
 else:
 ?>
 <div id="content_wrap">	<!--Activity Stats-->
-    	<div id="activity_stats">
+    <div id="admin-resume">
+	<?php
+	if(isset($_GET['user']) && is_numeric($_GET['user'])):
+	    include('user-profile.php');
+	else:
+	?>
+	<div id="activity_stats">
         	<h3>Resumen</h3>
             <div class="activity_column">
             	<span class="iconsweet">+</span> <span class="big_txt rd_txt">
@@ -31,7 +37,7 @@ else:
         </div>                  
         <!--Quick Actions-->
         <div id="quick_actions">
-        	<a class="button_big" href="#"><span class="iconsweet">+</span>Add new Project</a>
+            <a class="button_big" href="#"><span class="iconsweet">+</span>Add new Project</a>
             <a class="button_big" href="#"><span class="iconsweet">w</span>Export Report</a>
             <a class="button_big btn_grey" href="#"><span class="iconsweet">f</span>Manage Projects</a>
         </div>
@@ -64,8 +70,8 @@ else:
 				<td><?php echo $permisoAdmin = ($showInfo["bPermission"] == 1) ? "Si" : "No"; ?></td>
 				<td>
 				    <span class="data_actions iconsweet">
-					    <a class="tip_east" original-title="Perfil" data-toggle="modal" href="#showInfoUser" name="infoUse" id="<?php echo $showInfo["nID"]; ?>">a</a>
-					    <a class="tip_north" original-title="Editar" data-toggle="modal" href="#editUser" name="editUser" id="<?php echo $showInfo["nID"]; ?>">C</a>
+					    <a class="tip_east" original-title="Perfil - Ver o Editar" href="<?php echo $_SERVER['REQUEST_URI'] . "&user=" . $showInfo["nID"]; ?>">a</a>
+					    <!-- <a class="tip_north" original-title="Editar" data-toggle="modal" href="#editUser" name="editUser" id="">C</a>-->
 					    <a class="tip_west" original-title="Borrar" data-toggle="modal" href="#confirmDelUser" name="deluser" id="<?php echo $showInfo["nID"]; ?>">X</a>
 				    </span>
 				</td>
@@ -181,8 +187,11 @@ else:
 		    </div>
 		</div>  
 	    </div>
+	<?php
+	endif;
+	?>
 	</div>
-	
+    </div>
 <?php
 endif;
 ?>
