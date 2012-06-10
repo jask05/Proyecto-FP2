@@ -57,6 +57,16 @@ if(isset($_POST['newpasswd'], $_POST['userid'])){
     $return = $newPass->changePasswd($userid, $newpasswd);
 }
 
+
+// Cambia de permisos a un usuario
+if(isset($_POST['changeperm'])){
+    $perm = $_POST['changeperm'];
+    $userid = $_POST['id'];
+    $changePerm = new User();
+    $return = $changePerm->changePermUser($userid, $perm);
+}
+
+
 // Borrando Usuario
 if(isset($_POST['delUser']) && is_numeric($_POST['delUser'])){
     $delUser = $_POST['delUser'];
@@ -67,6 +77,15 @@ if(isset($_POST['delUser']) && is_numeric($_POST['delUser'])){
     else{
         $return = FALSE;
     }
+}
+
+// Modifica la ciudad del usuario, añadiendo o quitando
+if(isset($_POST['changecity']) && isset($_POST['userid'])){
+    $userID = $_POST['userid'];
+    $cityID = $_POST['changecity'];
+    
+    $change = new City();
+    $return = $change->changeUserCity($userID, $cityID);
 }
 
 echo $return;

@@ -5,8 +5,14 @@
         $rsUser = $userName->getAllInfoUser("", $_GET["user"]);
         $showuser = mysql_fetch_row($rsUser);
         $username = ucfirst($showuser[1]);
+        
+        // Muestra un cartel indicativo si es administrador o no
+        $checkPermm = new User();
+        $rsCheckPermm = mysql_fetch_array($checkPermm->checkUser($_GET['user']));
+        $checked = ($rsCheckPermm[1] == 1) ? "<a class='greenishBtn button_small' style='margin:5px;'>Administrador</a>" : "<a class='whitishBtn button_small' style='margin:5px;'>Usuario</a>";
+        
         ?>
-        <h3>Viendo el perfil de <?php echo  $username; ?></h3>
+        <h3>Viendo el perfil de <?php echo  $username . " " . $checked; ?></h3>
     </div>
     <div id="quick_actions">
         <a href="index.php?d=admin" class="button_big" id="toggleReturnEditUser"><span class="iconsweet">w</span>Volver</a>
@@ -49,13 +55,13 @@
                             <label>¿Administrador?</label>
                             <div class="form_input">
                                 <span>
-                                    <input type="radio" value="1" name="changePerm" id="currentPermissionAdmin" style="opacity: 0;">
+                                    <input type="radio" value="1" name="changePerm" id="currentPermissionAdmin" style="opacity: 0;" onclick="changePermission(this.id)">
                                 </span>
                                 <label>Si</label>
                             </div>
                             <div class="form_input">
                                 <span>
-                                    <input type="radio" value="0" name="changePerm" id="currentPermissionNoAdmin" style="opacity: 0;">
+                                    <input type="radio" value="0" name="changePerm" id="currentPermissionNoAdmin" style="opacity: 0;" onclick="changePermission(this.id)">
                                 </span>
                                 <label>No</label>
                             </div>
@@ -77,18 +83,29 @@
                     <ul class="form_fields_container">
                         <li>
                             <label>Ciudades</label>
+                            <?php
+                            $printCity = new City();
+                            $checkCityUser = new User();
+                            $checked = new Common();
+
+                            // Guarda en un array los ID's de las ciudades que tiene el usuario
+                            $checkCU = $checkCityUser->getCityUser($_GET['user'], 1);
+                            while($x = mysql_fetch_array($checkCU)){
+                                $currentCity[] = $x['nCityID'];
+                            }
+
+                            $rsCity = $printCity->showCity();
+                            while($rsCityPrint = mysql_fetch_assoc($rsCity)):
+                            ?>
                             <div class="form_input">
                                 <span>
-                                    <input type="checkbox" id="check1" style="opacity: 0;">
+                                    <input type="checkbox" id="<?php echo $rsCityPrint['nID']; ?>" style="opacity: 0;" <?php echo $checked->checkedBox($rsCityPrint['nID'], $currentCity); ?> onchange="changeCityUser(this.id)"/>
                                 </span>
-                                <label for="check1">Checkbox - Un Checked</label>
+                                <label for="check1"><?php echo html_entity_decode(ucfirst($rsCityPrint['cName'])); ?></label>
                             </div>
-                            <div class="form_input">
-                                <span class="checked">
-                                    <input type="checkbox" id="check1" checked="" style="opacity: 0;">
-                                </span>
-                                <label for="check1">Checkbox - Checked</label>
-                            </div>
+                            <?php
+                            endwhile;
+                            ?>
                         </li>
                     </ul>
                 </div>

@@ -4,41 +4,46 @@ $(document).ready(function(){
     $("#addCity").click(function(){
         var nombreCiudad = $("#nombreCiudad");
         var val = nombreCiudad.val();
-        $.ajax({
-            async: true,
-            type: "POST",
-            dataType: "html",
-            contentType: "application/x-www-form-urlencoded",
-            url: "lib/ajax.php",
-            data: "newCity=1&newCityName="+val,
-            beforeSend: function(){
-                    nombreCiudad.addClass("in_processing");
+        if(val == ""){
+            alert("No puedes dejar el campo de ciudad vacío.");
+        }
+        else{
+            $.ajax({
+                async: true,
+                type: "POST",
+                dataType: "html",
+                contentType: "application/x-www-form-urlencoded",
+                url: "lib/ajax.php",
+                data: "newCity=1&newCityName="+val,
+                beforeSend: function(){
+                        nombreCiudad.addClass("in_processing");
+                    },
+                success: function(datos){
+                        if(datos != 1)
+                        {
+                            nombreCiudad.val("La ciudad no se ha añadido. Puede que ya exista.");
+                            nombreCiudad.removeClass().addClass("in_error");
+                            setTimeout(function(){
+                                nombreCiudad.removeClass().val("");
+                            },5000);
+                        }
+                        else
+                        {
+                            nombreCiudad.removeClass().addClass('in_submitted');
+                            nombreCiudad.val("La ciudad se ha creado corréctamente");
+                            setTimeout(function(){
+                                nombreCiudad.slideUp(600).removeClass().val("").fadeIn(800);
+                                location.reload();
+                            },3000);
+                        }
+                    },
+                error: function(){
+                    nombreCiudad.val("La ciudad no se ha añadido. Puede que ya exista.");
+                    nombreCiudad.removeClass().addClass("in_error");
                 },
-            success: function(datos){
-                    if(datos != 1)
-                    {
-                        nombreCiudad.val("La ciudad no se ha añadido. Puede que ya exista.");
-                        nombreCiudad.removeClass().addClass("in_error");
-                        setTimeout(function(){
-                            nombreCiudad.removeClass().val("");
-                        },5000);
-                    }
-                    else
-                    {
-                        nombreCiudad.removeClass().addClass('in_submitted');
-                        nombreCiudad.val("La ciudad se ha creado corréctamente");
-                        setTimeout(function(){
-                            nombreCiudad.slideUp(600).removeClass().val("").fadeIn(800);
-                            location.reload();
-                        },3000);
-                    }
-                },
-            error: function(){
-                nombreCiudad.val("La ciudad no se ha añadido. Puede que ya exista.");
-                nombreCiudad.removeClass().addClass("in_error");
-            },
-            timeout: 4000
-        });    
+                timeout: 4000
+            });
+        }
     });
     
     // Añade un nuevo usuario
@@ -197,7 +202,6 @@ function updateUsername(){
         },
         data: "changeusername="+currentUsername.val()+"&id="+currentUserID,
         success: function(str){
-                console.log(str);
                 if(str == "error"){
                     alert("No se ha podido modificar el nombre. Compruebe que no exista un usuario con ese nombre.");
                     currentUsername.addClass('in_error');
@@ -221,4 +225,50 @@ function updateUsername(){
     });
     
     return true;
+}
+
+// Modifica los permisos de administrador
+function changePermission(id){
+    var radio = $('#'+id);
+    var currentUserID = $('#currentUserID').val();
+    
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        contentType: "application/x-www-form-urlencoded",
+        url: "lib/ajax.php",
+        data: "changeperm="+radio.val()+"&id="+currentUserID,
+        success: function(str){
+                if(str == 1){
+                    alert("El permiso de usuario se ha modificado satisfactoriamente.");
+                    location.reload();
+                }
+                else{
+                    alert("Ha ocurrido un error al modificar el permiso. Por favor, vuelva a intentarlo o refresque la página.");
+                }
+            },
+        error: function(){
+            alert("Error interno de permisos. Por favor contacte con un administrador.");
+        },
+        timeout: 4000
+    });
+}
+
+// Modifica las ciudades de un usuario
+function changeCityUser(id){
+    var currentUserID = $('#currentUserID').val();
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        contentType: "application/x-www-form-urlencoded",
+        url: "lib/ajax.php",
+        data: "changecity="+id+"&userid="+currentUserID,
+        success: function(){
+            alert("Ciudad actualizada corréctamente.");
+        },
+        error: function(){
+            alert("No se ha podido actualizar la ciudad. Por favor, inténtelo de nuevo.");
+        },
+        timeout: 4000
+    });
 }

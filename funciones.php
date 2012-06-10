@@ -102,10 +102,19 @@ class Common{
 	       return $this->nombre;
 	}
 	
-	public function betweenComma($content){
-	    
-	}
 	
+	/**
+	* Hace que un campo radio o checkbox esté con la opción 'checked' si existe ese valor en un aray
+	*
+	* @str		$needle (aguja)
+	* @array	$haystack (pajar)
+	* @return 	html string
+	*/
+	public function checkedBox($needle, $haystack){
+	    if(in_array($needle, $haystack)){
+		return "checked = 'checked'";
+	    }
+	}
 }
 
 class Template{
@@ -322,19 +331,27 @@ class User extends Mysql_Connect{
 	
 	/**
 	* Lista las ciudades que pertenecen a un usuario.
+	* Si se aplica $onlycityuser solo muestra la relación en la tabla cityuser
 	*
-	* @ int $ide (USER ID)
-	* @ return mysql array
+	* @ int 	$ide (USER ID)
+	* @ bool	$onlycityuser
+	* @ return 	mysql array
 	*/
-	public function getCityUser($ide){
+	public function getCityUser($ide, $onlycityuser = ""){
 	    $this->id = $ide;
-	    $this->sentencia = "SELECT city.cName
-				FROM city
-				WHERE city.nID IN (
-				    SELECT cityuser.nCityID
-				    FROM cityuser
-				    WHERE cityuser.nUserID = " . $this->id ."
-				)";
+	    $this->onlycu = $onlycityuser;
+	    if($this->onlycu == 1){
+		$this->sentencia = "SELECT nCityID FROM cityuser WHERE nUserID = " . $this->id;
+	    }
+	    else{
+		$this->sentencia = "SELECT city.cName
+				    FROM city
+				    WHERE city.nID IN (
+					SELECT cityuser.nCityID
+					FROM cityuser
+					WHERE cityuser.nUserID = " . $this->id ."
+				    )";			
+	    }
 	    
 	    return mysql_query($this->sentencia);
 	    
@@ -352,10 +369,15 @@ class User extends Mysql_Connect{
 		$this->user = $us;
 		$this->pass = $contrasena;
 		
+		/*
 		$this->sentencia = "SELECT nID, bPermission
 				    FROM user
 				    WHERE cNick = '" . mysql_real_escape_string(trim($this->user)) ."'";
-				    
+		*/
+		$this->sentencia = "SELECT nID, bPermission FROM user ";
+		$this->sentencia .= (is_numeric($this->user)) ? "WHERE nID = " . $this->user : "WHERE cNick = '" . mysql_real_escape_string(trim($this->user)) ."'";
+		
+		
 		if(isset($this->pass) AND !empty($this->pass))
 		{
 		    $this->sentencia .= " AND cPass = '" . mysql_real_escape_string(md5($this->pass)) . "'";   
@@ -507,6 +529,21 @@ class User extends Mysql_Connect{
 	}
 	
 	/**
+	* Cambia de permisos a un usuario.
+	*
+	* @ int 	$userid
+	* @ bool	$val
+	* @ return 	TRUE || FALSE
+	*/
+	public function changePermUser($useride, $val){
+	    $this->userID = $useride;
+	    $this->value = $val;
+	    $this->sentencia = "UPDATE user SET bPermission = " . $this->value  . " WHERE nID = " . $this->userID;
+	    return mysql_query($this->sentencia);
+	    //return $this->sentencia;
+	}
+	
+	/**
 	* Devuelve la cantidad de usuarios creados
 	*
 	* @ return int
@@ -582,6 +619,33 @@ class City extends Mysql_Connect{
 	    $this->total = mysql_num_rows($this->query);
 	    
 	    return $this->total;
+	}
+	
+	/**
+	* Modifica la tabla de cityuser añadiendo o borrando nuevos registros
+	*
+	* @ int		$userIDe
+	* @ int		$cityIDe
+	* @ return 	mysql array
+	*/
+	public function changeUserCity($userIDe, $cityIDe){
+	    $this->userid = $userIDe;
+	    $this->cityid = $cityIDe;
+	    
+	    // Si existe la ciudad la borro, y si no creo la relación
+	    $this->checkIfexists = mysql_query("SELECT nID FROM cityuser WHERE nCityID = " . $this->cityid . " AND nUserID = " . $this->userid);
+	    if(mysql_num_rows($this->checkIfexists) == 0){
+		// Se inserta
+		$this->sentencia = "INSERT INTO cityuser (nCityID, nUserID) VALUES (" . $this->cityid . ", " . $this->userid . ")";
+		return mysql_query($this->sentencia);
+	    }
+	    else{
+		// Se borra
+		$this->sentencia = "DELETE FROM cityuser WHERE nCityID = " . $this->cityid . " AND nUserID = " . $this->userid;
+		return mysql_query($this->sentencia);
+	    }
+	    
+	    
 	}
 }
 
