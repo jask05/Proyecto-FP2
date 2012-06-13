@@ -7,8 +7,13 @@ else:
 <div id="content_wrap">	<!--Activity Stats-->
     <div id="admin-resume">
 	<?php
+	
+	include("modal-window.php");
+	
 	if(isset($_GET['user']) && is_numeric($_GET['user'])):
 	    include('user-profile.php');
+	elseif(isset($_POST['search']) && !empty($_POST['search'])):
+	    include('search.php');
 	else:
 	?>
 	<div id="activity_stats">
@@ -29,19 +34,7 @@ else:
 		    ?>
 		</span>Ciudades
             </div>
-	    <!--
-            <div class="activity_column">
-            	<span class="iconsweet">#</span> <span class="big_txt">2</span>Answer pending
-            </div>
-            -->
         </div>                  
-        <!--Quick Actions-->
-        <div id="quick_actions">
-            <a class="button_big" href="#"><span class="iconsweet">+</span>Add new Project</a>
-            <a class="button_big" href="#"><span class="iconsweet">w</span>Export Report</a>
-            <a class="button_big btn_grey" href="#"><span class="iconsweet">f</span>Manage Projects</a>
-        </div>
-	
 	
 	<div class="one_wrap">
 	    <div class="widget">
@@ -83,9 +76,6 @@ else:
 		    </div>
 		    <!-- @@@@@@@ Fin Listado Usuarios @@@@@@@ -->
 		  </div>  
-		
-		<?php include("modal-window.php"); ?>
-		
 		<div class="widgets_wrap">
 		    <!-- @@@@@@@ Añadir Usuario @@@@@@@ -->
 		    <div class="one_two_wrap fl_left">
@@ -173,16 +163,21 @@ else:
 			<!--List Tick-->
 			<div class="widget">
 			    <div class="widget_title"><span class="iconsweet">\</span>
-				<h5>Buscar Usuario</h5>
+				<h5>Buscar Usuario o Ciudad</h5>
 			    </div>
-			    <ul class="form_fields_container">
-				<li><label>Nombre</label> <div class="form_input"><input name="" type="text"></div></li>
-			    </ul>
-			    <div class="action_bar">
-				<a href="#" class="button_small whitishBtn">
-				    <span class="iconsweet">></span>Buscar
-				</a>
-			    </div>
+			    <form name="searcher" method="POST" >
+				<ul class="form_fields_container">
+				    <li>
+					<label>Valor</label>
+					<div class="form_input">
+					    <input name="search" type="text" id="search" placeholder="Introduce un nombre de ciudad o usuario a buscar">
+					</div>
+				    </li>
+				</ul>
+				<div class="action_bar">
+				    <input type="submit" value="Buscar" class="button_small whitishBtn" name="showRSearch"/>
+				</div>
+			    </form>
 			</div>
 		    </div>
 		</div>  

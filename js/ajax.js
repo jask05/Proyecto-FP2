@@ -101,7 +101,7 @@ $(document).ready(function(){
        
     });
     
-    // Borrar un usuario
+    // Borrar un usuario (modal windows)
     $('[name="deluser"]').click(function(){
        var idUserToDel = this.id;
        $('#confirmDeleteUser').click(function(){
@@ -122,6 +122,19 @@ $(document).ready(function(){
                 timeout: 4000
             });
        });
+    });
+    
+    // Búsqueda de usuario o ciudad (modal windows)
+    $('[name="showRSearch"]').click(function(){
+        var value = $('#search');
+        var txt = 2;
+        if(value.val() == "" || value.val().length <= txt){
+            alert("No puedes hacer búsquedas con un campo vacío o con una cadena menor de "+txt+" caracteres.");
+            value.focus();
+            return false;
+        }
+        
+        return true;
     });
     
     // Comprueba y modifica la contraseña

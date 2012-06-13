@@ -201,35 +201,10 @@ class Template{
 	return $this->html;
     }
     
-    /*
-     array de primary-nav.php
-     Falta por terminar
-    
-    public function primaryNav()
-    {
-	$li = array(
-	    0 => array("nav_dashboard", "", "Inicio", 0),
-	    1 => array("nav_graphs", "stock", "Invertario", 0),
-	    2 => array("nav_uielements", "report", "Reporte", 0),
-	    3 => array("nav_pages", "admin", "Administración", 1)
-	);
-	
-	foreach($li as $clave => $valor)
-	{
-	    foreach($valor as $c2 => $v2)
-	    {
-		echo $valor . ": " . $c2 . " --> " . $v2 . "<br>";
-	    }
-	}
-	
+    public function paintMenuBox($urlCheck, $sections){
+	$this->url = $urlCheck;
+	$this->section = $sections;
     }
-    
-    public function secondaryNav($h2title, $url, $cssClass)
-    {
-	
-    }
-	
-    */
 }
 
 
@@ -253,43 +228,6 @@ class Mysql_Connect{
 	    return $this->select_db;
 	}
 }
-
-class Query extends Mysql_Connect{
-	
-	private $table = array();
-	private $statement = array();
-	private $where = array();
-
-	public function select($tabla, $sentencia, $cuando = "")
-	{
-
-	}
-	
-	public function update()
-	{
-		
-	}
-	
-	public function insert()
-	{
-		
-	}
-	
-	public function delete()
-	{
-		
-	}
-	
-	public function drop()
-	{
-		
-	}
-	
-	
-}
-
-
-
 
 class User extends Mysql_Connect{
 	
@@ -486,6 +424,21 @@ class User extends Mysql_Connect{
 	    }
 	}
 
+	
+	/**
+	* Busca un usuario según el valor que se le pasa
+	*
+	* @ str		$val
+	* @ return 	mysql array 
+	*/
+	public function searchUser($val){
+	    $this->value = $val;
+	    $this->sentencia = "SELECT * FROM user WHERE cNick LIKE '%$this->value%'";
+	    
+	    return mysql_query($this->sentencia);
+	    //return $this->sentencia;
+	}
+	
 	/**
 	* Borra las ciudades que tiene asociada el usuario
 	*
@@ -523,10 +476,6 @@ class User extends Mysql_Connect{
 	    return mysql_query($this->sentencia);  
 	}
 	
-	public function banUser()
-	{
-
-	}
 	
 	/**
 	* Cambia de permisos a un usuario.
@@ -569,49 +518,55 @@ class City extends Mysql_Connect{
 	* @ return TRUE || FALSE
 	*/
 	public function newCity($nam){
-		$this->name = $nam;
-		
-		// Checking if exist the field
-		$this->check = "SELECT nID
-				FROM city
-				WHERE cName = '" . $this->name . "'";
-		
-		$this->countRow = mysql_query($this->check);
-		
-		if(mysql_num_rows($this->countRow) == 0){
-				
-			// Adding new city name
-			$this->sentencia = "INSERT INTO city (cName) VALUES ('". $this->name ."')";
-					
-			if(mysql_query($this->sentencia)){
-				return TRUE;
-			}
-			else{
-				return FALSE;
-			}
-		}
-		else{
-			return FALSE;
-		}
-
+	    $this->name = $nam;
+	    
+	    // Checking if exist the field
+	    $this->check = "SELECT nID
+			    FROM city
+			    WHERE cName = '" . $this->name . "'";
+	    
+	    $this->countRow = mysql_query($this->check);
+	    
+	    if(mysql_num_rows($this->countRow) == 0){
+			    
+		    // Adding new city name
+		    $this->sentencia = "INSERT INTO city (cName) VALUES ('". $this->name ."')";
+				    
+		    if(mysql_query($this->sentencia)){
+			    return TRUE;
+		    }
+		    else{
+			    return FALSE;
+		    }
+	    }
+	    else{
+		    return FALSE;
+	    }
 	}
 	
 	/**
 	* Muestra un listado de todas las ciudades.
+	* Se puede filtrar por ID
 	*
-	* @ return mysql array
+	* @ int		$ide (Optional)
+	* @ return 	mysql array
 	*/
-	public function showCity(){
+	public function showCity($ide = ''){
+		$this->id = $ide;
 		$this->sentencia = "SELECT nID, cName
 				    FROM city";
-				    
+		
+		if(isset($this->id) && is_numeric($this->id)){
+		    $this->sentencia .= " WHERE nID = " . $this->id;
+		}
+		
 		return mysql_query($this->sentencia);
 	}
 	
 	/**
 	* Devuelve la cantidad de ciudades creadas
 	*
-	* @ return int
+	* @ return  int
 	*/
 	public function totalCity(){
 	    $this->sentencia = "SELECT nID FROM city";
@@ -619,6 +574,20 @@ class City extends Mysql_Connect{
 	    $this->total = mysql_num_rows($this->query);
 	    
 	    return $this->total;
+	}
+	
+	/**
+	* Busca una ciudad según el valor que se le pasa
+	*
+	* @ str		$val
+	* @ return 	mysql array 
+	*/
+	public function searchCity($val){
+	    $this->value = $val;
+	    $this->sentencia = "SELECT * FROM city WHERE cName LIKE '%$this->value%'";
+	    
+	    return mysql_query($this->sentencia);
+	    //return $this->sentencia;
 	}
 	
 	/**
@@ -644,7 +613,28 @@ class City extends Mysql_Connect{
 		$this->sentencia = "DELETE FROM cityuser WHERE nCityID = " . $this->cityid . " AND nUserID = " . $this->userid;
 		return mysql_query($this->sentencia);
 	    }
+	}
+	
+	/**
+	* Muestra los usuarios asociados que tiene una ciudad o viceversa
+	*
+	* @ int		$ide
+	* @ bool	$kind	0 = user, 1 = city
+	* @ return 	mysql array
+	*/
+	public function cityUserRelations($ide, $kind){
+	    $this->id = $ide;
+	    $this->tipo = $kind;
 	    
+	    $this->sentencia = "SELECT * FROM cityuser WHERE ";
+	    if($this->tipo == 0){
+		$this->sentencia .= "nUserID = " . $this->id;
+	    }
+	    elseif($this->tipo == 1){
+		$this->sentencia .= "nCityID = " . $this->id;
+	    }
+	    
+	    return mysql_query($this->sentencia);
 	    
 	}
 }
