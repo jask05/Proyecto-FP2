@@ -88,6 +88,41 @@ if(isset($_POST['changecity']) && isset($_POST['userid'])){
     $return = $change->changeUserCity($userID, $cityID);
 }
 
+// Saca en un array los usuarios y su id que tienen asociada una ciudad en concreto.
+if(isset($_POST['asociatedusers']) && is_numeric($_POST['asociatedusers'])){
+    $asociatedusers = $_POST['asociatedusers'];
+    $cityUser = new City();
+    $showUser = new User();
+    $cityUser_cityUserRelations = $cityUser->cityUserRelations($asociatedusers, 1);
+    
+    $content = "<tr>
+                <th width='8%'>ID</th>
+                <th width='15%'>Usuario</th>
+                <th width='25%'>Acción</th>
+            </tr>";
+    
+    while($fetch_cityUserRelations = mysql_fetch_assoc($cityUser_cityUserRelations)){
+        $nUserID = $fetch_cityUserRelations['nUserID'];
+        $rs_User = $showUser->getAllInfoUser("", $nUserID);
+        $print_User = mysql_fetch_assoc($rs_User);
+
+        /*
+         VER ESTO
+        */
+        
+        $content .= "<tr><td>" . $print_User['nID'] . "</td>
+                    <td>" . $print_User['cNick'] . "</td>
+                    <td>
+                        <span class='data_actions iconsweet'>
+                            <a class='tip_east' original-title='Perfil - Ver o Editar' href='index.php?d=admin&user=" . $print_User['nID'] . "'>a</a>
+                        </span>
+                    </td></tr>";
+    }
+    
+    $return = $content;
+}
+
 echo $return;
+
 
 ?>

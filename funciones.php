@@ -115,11 +115,26 @@ class Common{
 		return "checked = 'checked'";
 	    }
 	}
+	
+	public function changeDate($date){
+	    // Cambia de día-mes-año
+	    $date_xplo = explode("-", $date);
+	    $rs = $date_xplo[2] ."-".$date_xplo[1]."-".$date_xplo[0];
+	    return $rs;
+	}
+	
 }
 
 class Template{
 
-
+    public function activeMenu($nam){
+	$this->name = $nam;
+	if($this->name == $_GET['d']){
+	    return "active";
+	}
+    }
+    
+    
     public function loadCSS()
     {
 	    $this->load = "<!--Stylesheets--> \n
@@ -176,7 +191,7 @@ class Template{
 	    <script type='text/javascript' src='". __URL__ . "/js/fancybox/jquery.mousewheel-3.0.4.pack.js'></script>
 	    <script type='text/javascript' src='". __URL__ . "/js/highlight.js'></script>
 	    <script type='text/javascript' src='". __URL__ . "/js/main.js'> </script>
-	    <script type='text/javascript' src='". __URL__ . "/js/ajax.js'> </script>";
+	    <script type='text/javascript' src='". __URL__ . "/js/ajax.js'> </script>";	    
 	    
 	    return $this->load;
     }
@@ -205,6 +220,8 @@ class Template{
 	$this->url = $urlCheck;
 	$this->section = $sections;
     }
+    
+    
 }
 
 
@@ -455,8 +472,7 @@ class User extends Mysql_Connect{
 	    }
 	    else{
 		return FALSE;
-	    }
-	    
+	    } 
 	}
 	
 	/**
@@ -551,16 +567,23 @@ class City extends Mysql_Connect{
 	* @ int		$ide (Optional)
 	* @ return 	mysql array
 	*/
-	public function showCity($ide = ''){
+	public function showCity($ide = '', $nam = ''){
+		
 		$this->id = $ide;
+		$this->name = $nam;
+		
 		$this->sentencia = "SELECT nID, cName
 				    FROM city";
 		
 		if(isset($this->id) && is_numeric($this->id)){
 		    $this->sentencia .= " WHERE nID = " . $this->id;
 		}
+		if(!empty($this->name) && is_string($this->name)){
+		    $this->sentencia .= " WHERE cName = '" . htmlentities($this->name) . "'";
+		}
 		
 		return mysql_query($this->sentencia);
+		//return $this->sentencia;
 	}
 	
 	/**
@@ -616,10 +639,10 @@ class City extends Mysql_Connect{
 	}
 	
 	/**
-	* Muestra los usuarios asociados que tiene una ciudad o viceversa
+	* Muestra los ID usuarios asociados que tiene una ciudad o viceversa
 	*
 	* @ int		$ide
-	* @ bool	$kind	0 = user, 1 = city
+	* @ bool	$kind	0 = show cities related as user, 1 = show users in a city
 	* @ return 	mysql array
 	*/
 	public function cityUserRelations($ide, $kind){
@@ -637,6 +660,283 @@ class City extends Mysql_Connect{
 	    return mysql_query($this->sentencia);
 	    
 	}
+	
+	public function checkCityAndUser($user, $city){
+	    $this->userid = $user;
+	    $this->cityid = $city;
+	    
+	    $this->sentencia = "SELECT * FROM cityuser
+			    WHERE  nUserID = " . $this->userid . "
+			    AND nCityID = " . $this->cityid;
+	    
+	    return mysql_query($this->sentencia);
+	}
+}
+
+class Stock extends Mysql_Connect{
+    
+    /**
+    * Método de búsqueda general. 
+    *
+    * @ array		$search
+    * 		[0] - Campo donde buscar	(Asociado al Where)
+    * 		[1] - Valor aplicado al WHERE del campo
+    * 		[2] - Order by	(Optional)
+    * 			[2]["campo"] 	- Nombre del Campo por el que será ordenado
+    * 			[2]["ascordesc"]- Orden ascendente o descendente
+    * 		[3] - Limit	(Optional)
+    * 			[3]["limit_start"]
+    * 			[3]["limit_end"]
+    * @ return 	mysql array
+    */
+    public function showAllStock($search){
+	$this->field 	= $search[0];
+	$this->value 	= $search[1];
+	
+	$this->orderby	= $search[2];
+	    $this->order_field 	= $this->orderby["campo"];
+	    $this->order_kind 	= $this->orderby["ascordesc"];
+	
+	$this->limit	= $search[3];
+	    $this->limit_start 	= $this->limit["start"];
+	    $this->limit_end 	= $this->limit["end"];
+	    
+	$this->sentencia = "SELECT * FROM stock";
+	$this->sentencia .= ($this->field != "" && $this->value != "") ? " WHERE " . $this->field . " = " . $this->value : "";
+	$this->sentencia .= ($this->orderby != "") ? " ORDER BY " .  $this->order_field . " " . $this->order_kind : $this->orderby = "";
+	$this->sentencia .= ($this->limit_start != "" && $this->limit_end != "") ? " LIMIT " . $this->limit_start . ", " . $this->limit_end : $this->limit = ""; 
+	
+	return mysql_query($this->sentencia)or die(mysql_error());
+	//return $this->sentencia;
+	
+    }
+    
+    public function allStock(){
+	$this->sentencia = "SELECT stock.*, city.cName as ciudad
+			    FROM stock 
+			    INNER JOIN city ON city.nID = stock.nLocation
+			    ORDER BY nID DESC";
+	
+	return mysql_query($this->sentencia);
+    }
+    
+    public function allStockWithLimit($n1, $n2){
+	$this->limit_start 	= $n1;
+	$this->limit_end	= $n2;
+	
+	$this->sentencia = "SELECT stock.*, city.cName as ciudad
+			    FROM stock 
+			    INNER JOIN city ON city.nID = stock.nLocation
+			    ORDER BY nID DESC
+			    LIMIT " . $this->limit_start . ", " . $this->limit_end;
+	
+	return mysql_query($this->sentencia);
+	//return $this->sentencia;
+    }
+    
+    /**
+    * Devuelve los campos de la tabla "stock" que tiene como valor en nLocation 0
+    * Significa que cuando se dispuso a realizar la subida del csv algunas ciudades
+    * no estaban cargadas en la base de datos, y que hay que asignarlas manualmente.
+    *
+    * @ return 	mysql array
+    */
+    public function stockWithoutLocation(){
+	$this->sentencia = "SELECT * FROM stock WHERE nLocation = 0";
+	//$search = array("nLocation", 0, array("campo" => "nID", "ascordesc" => "DESC"), array("start" => "", "end" => ""));
+	//return $this->showAllStock($search);
+	return mysql_query($this->sentencia);
+    }
+    
+    public function showEditButton($userID, $perm, $location){
+	$this->user 		= $userID;
+	$this->permission 	= $perm;
+	$this->locationid	= $location;	
+	
+	if($this->permission == 1){
+	    $this->content = 1;
+	}
+	else{
+	    
+	    $checkUser = new City();
+	    $rs = $checkUser->checkCityAndUser($this->user, $this->locationid);
+	    if(mysql_num_rows($rs) > 0){
+		$this->content = 1;
+	    }
+	    else{
+		$this->content = 0;
+	    }
+	}
+	
+	return $this->content;
+	
+    }
+    
+    public function showOneReg($regid){
+	$this->id = $regid;
+	$this->sentencia = "SELECT * FROM stock WHERE nID = " . $this->id;
+	return mysql_query($this->sentencia);
+    }
+    
+}
+
+class Upload extends Mysql_Connect{
+    
+    private $file;
+    
+    public function insertReg($arg){
+	
+	$date = new Common();
+	$this->sentencia = "INSERT INTO stock(cItems,cVestasID,cService_Call,cFromPO,cSerial_Number,cMAC,dDate_Arrival,cStatus,dDelivery_date,nLocation,cComments)
+		VALUES
+		('" . $arg["item"] . "',
+		'" . $arg["vestasid"] . "',
+		'" . $arg["servicecall"] ."',
+		'" . $arg["from"] . "',
+		'" . $arg["serialnumber"] . "',
+		'" . $arg["mac"] . "',
+		'" . $date->changeDate($arg["datearrival"]) . "',
+		'" . $arg["status"] . "',
+		'" . $date->changeDate($arg["deliverydate"]) . "',
+		'" . $arg["selectcity"] . "',
+		'" . $arg["comments"] . "')";
+	
+	return mysql_query($this->sentencia);
+    }
+    
+    public function updateReg($arg){
+	$date = new Common();
+	$this->sentencia = "UPDATE stock SET
+			    cItems = '" . $arg["item"] . "',
+			    cVestasID = '" . $arg["vestasid"] . "',
+			    cService_Call = '" . $arg["servicecall"] ."',
+			    cFromPO = '" . $arg["from"] . "',
+			    cSerial_Number = '" . $arg["serialnumber"] . "',
+			    cMAC = '" . $arg["mac"] . "',
+			    dDate_Arrival = '" . $date->changeDate($arg["datearrival"]) . "',
+			    cStatus = '" . $arg["status"] . "',
+			    dDelivery_date = '" . $date->changeDate($arg["deliverydate"]) . "',
+			    nLocation = '" . $arg["city"] . "',
+			    cComments = '" . $arg["comments"] . "'
+			    WHERE nID = " . $arg["id"];
+	
+	return mysql_query($this->sentencia);
+	//return $this->sentencia;
+    }
+    
+    private function insertCSV($csv, $folder){
+	
+	$city = new City();
+	
+	$this->file = $csv;
+	
+	$handle = fopen($folder . $this->file,'r');
+	$row = 0;
+	while (($data = fgetcsv($handle,0,";")) !== FALSE) { 
+	    $num = count($data);
+	    $row++;
+                   
+	    if($row > 1){
+		
+		// Asociando la ciudad que se ingresa con un ID
+		$city_showCity = $city->showCity("", $data[9])or die(mysql_error());
+		if(mysql_num_rows($city_showCity) > 0){
+		    $cityID = mysql_fetch_assoc($city_showCity);    
+		}
+		else{
+		    $cityID['nID'] = 0;	// FALSO
+		}
+	
+		$data['cItems'] 		= 	$data[0];
+		$data['cVestasID'] 		= 	$data[1];
+		$data['cService_Call'] 		=	$data[2];
+		$data['cFromPO']		=	$data[3];
+		$data['cSerial_Number']		=	$data[4];
+		$data['cMAC']			=	$data[5];
+		$data['dDate_Arrival']		=	$data[6];
+		$data['cStatus']		=	$data[7];
+		$data['dDelivery_date']		=	$data[8];
+		$data['nLocation']		=	$cityID['nID']; //$data[9];
+		$data['cComments']		=	$data[10];
+		
+		$this->sentencia = "INSERT INTO stock(cItems,cVestasID,cService_Call,cFromPO,cSerial_Number,cMAC,dDate_Arrival,cStatus,dDelivery_date,nLocation,cComments)
+		VALUES
+		('" . $data['cItems'] . "','" . $data['cVestasID'] . "', '" . $data['cService_Call'] . "','" . $data['cFromPO'] . "','" . $data['cSerial_Number'] . "','" . $data['cMAC'] . "','" . $data['dDate_Arrival'] . "','" . $data['cStatus'] . "','" . $data['dDelivery_date']. "','" . $data['nLocation'] . "','" . $data['cComments'] . "')";
+    
+		mysql_query($this->sentencia);
+		//return $this->sentencia;
+	    }
+	
+	}
+	
+	fclose($handle);
+	return true;
+
+    }
+    
+    private function checkExtension($file, $ext){
+	$this->fileName = $file['name'];	// Only a FILE array
+	$this->extension = $ext;
+	
+	$lowerCase = substr($this->fileName, -4);
+	$capital = substr(strtoupper($this->fileName), -4);
+	
+	if($this->extension == $lowerCase || $this->extension == $capital)
+	    return true;
+	else
+	    return false;
+    }
+    
+    public function checkType($fil, $typ){
+	$this->file = $fil;
+	$this->type = $typ;
+	
+	if($this->file["type"] == $this->type)
+	    return true;
+	else
+	    return false;
+    }
+    
+    public function updateRelations($ide, $value){
+	$this->id = $ide;
+	$this->valor = $value;
+	
+	$this->sentencia = "UPDATE stock SET nLocation = " . $this->valor = $value . " WHERE nID = " . $this->id;
+	return mysql_query($this->sentencia);
+    }
+    
+    public function uploadCSV($csv){
+	$this->file = $csv;
+
+	$upload = new Common();
+	
+	$this->name = $upload->deleteSpecialChars($upload->deleteSpaces($this->file['name']));
+	$folder = $_SERVER['DOCUMENT_ROOT'] . "/" . __MAINFOLDER__ . "/tmp/";
+	
+
+	if($this->checkExtension($this->file, ".csv")){
+	    if($this->checkType($this->file, "text/csv")){
+		if(move_uploaded_file($this->file['tmp_name'], $folder . $this->name)){
+		    if($this->insertCSV($this->name, $folder)){
+			return true;
+		    }
+		    else{
+			return false;
+		    }
+		}
+		else{
+		    return false;   
+		}
+	    }
+	    else{
+		return false;
+	    }  
+	}
+	else{
+	    return false;
+	}
+    }
+    
 }
 
 ?>

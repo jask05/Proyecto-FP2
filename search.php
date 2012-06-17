@@ -14,7 +14,7 @@ else:
 	
 	$busqueda = $_POST['search'];
 	$searchUser = $usuarios->searchUser($busqueda);
-	$searchCity = $ciudades->searchCity($busqueda);
+	$searchCity = $ciudades->searchCity(htmlentities($busqueda));
 	
 	$usuariosEncontrados =  mysql_num_rows($searchUser);
 	$ciudadesEncontradas = mysql_num_rows($searchCity);
@@ -40,7 +40,7 @@ else:
     <?php
     if($usuariosEncontrados == 0):
 	$cartel = new Template();
-	$content = array("msg_Alert", "*", "No se ha encontrado ningún usuario con ese patrón. Si lo desea, puede crearlo desde el panel de administración.");
+	$content = array("msg_Alert", "*", "No se ha encontrado ningún <strong>usuario</strong> con ese patrón. Si lo desea, puede crearlo desde el panel de administración.");
 	echo $cartel->notice($content);
     else:
 	include("modal-window.php");	// Información de usuario en la modal windows
@@ -85,7 +85,7 @@ else:
     <?php
     if($ciudadesEncontradas == 0):
 	$cartel = new Template();
-	$content = array("msg_Alert", "*", "No se ha encontrado ninguna ciudad con ese patrón. Si lo desea, puede crearla desde el panel de administración.");
+	$content = array("msg_Alert", "*", "No se ha encontrado ninguna <strong>ciudad</strong> con ese patrón. Si lo desea, puede crearla desde el panel de administración.");
 	echo $cartel->notice($content);
     else:
     ?>
@@ -106,12 +106,15 @@ else:
 		while($showInfo = mysql_fetch_assoc($searchCity)):
 		    $usuariosAsociados = $ciudades->cityUserRelations($showInfo["nID"], 1);
 		    $cantidadUsuariosAsociados = mysql_num_rows($usuariosAsociados);
-		    $rsCantidadUsuariosAsociados = ($cantidadUsuariosAsociados == 0) ? $cantidadUsuariosAsociados : "<a class='tip_west whitishBtn button_small' data-toggle='modal' href='#showSearch' original-title='Pincha aquí para ver el listado de usuarios asociados'>" . $cantidadUsuariosAsociados . " Usuarios Asociados</a>";
+		    $rsCantidadUsuariosAsociados = ($cantidadUsuariosAsociados == 0) ? $cantidadUsuariosAsociados : "<a class='tip_west whitishBtn button_small'  href='#showSearch' original-title='Pincha aquí para ver el listado de usuarios asociados' onclick='showAsociatedUsers(this.id)' id='modal-windows-searched' data-toggle='modal'>" . $cantidadUsuariosAsociados . " Usuarios Asociados</a>"; // data-toggle='modal'
 		?>
 		<tr>
-		    <td id="idUser"><?php echo $showInfo["nID"]; ?></td>
+		    <td id="idCity"><?php echo $showInfo["nID"]; ?></td>
 		    <td><?php echo html_entity_decode($showInfo["cName"]); ?></td>
-		    <td><?php echo $rsCantidadUsuariosAsociados; ?></td>
+		    <td>
+			<input type="hidden" name="idCitySelected" value="<?php echo $showInfo["nID"]; ?>" />
+			<?php echo $rsCantidadUsuariosAsociados; ?>
+		    </td>
 		    <td>
 			<span class="data_actions iconsweet">
 			    <a class="tip_west" original-title="Editar - Solo se puede cambiar el nombre" href="<?php echo $_SERVER['REQUEST_URI'] . "&city=" . $showInfo["nID"]; ?>">8</a>

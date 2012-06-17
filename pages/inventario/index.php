@@ -1,271 +1,109 @@
-<div id="content_wrap">	<!--Activity Stats-->
-    	<div id="activity_stats">
-        	<h3>Activity</h3>
-            <div class="activity_column">
-            	<span class="iconsweet">+</span> <span class="big_txt rd_txt">12</span>Added
-            </div>
-            <div class="activity_column">
-            	<span class="iconsweet">Y</span> <span class="big_txt gr_txt">6</span>Flagged
-            </div>
-            <div class="activity_column">
-            	<span class="iconsweet">#</span> <span class="big_txt">2</span>Answer pending
-            </div>                         
-        </div>                  
-        <!--Quick Actions-->
-        <div id="quick_actions">
-        	<a class="button_big" href="#"><span class="iconsweet">+</span>Add new Project</a>
-            <a class="button_big" href="#"><span class="iconsweet">w</span>Export Report</a>
-            <a class="button_big btn_grey" href="#"><span class="iconsweet">f</span>Manage Projects</a>
-        </div>
-	<!--Notification Message-->
-    	<div class="msgbar msg_Info hide_onC">
-            <span class="iconsweet">*</span><p>Thanks for choosing Dreamworks!</p>
-        </div>
-	<!--One_TWO-->
- 	<div class="one_two_wrap fl_left">
-    	<div class="widget">
-        	<div class="widget_title"><span class="iconsweet">r</span><h5>Projects graph</h5></div>
-            <div class="widget_body">
-            	<!--Projects Graph--> 
-                <div id="chart_linear" class="no_overflow">
-                </div>
-            </div>
-        </div>
-    </div>
-	<!--One_TWO-->
- 	<div class="one_two_wrap fl_right">
-    	<div class="widget">
-        	<div class="widget_title"><span class="iconsweet">t</span><h5>Statistics</h5></div>
-            <div class="widget_body">
-            	<!--Stastics-->
-            	<ul class="dw_summary">
-                            <li>
-                                <span class="percentage_done">12%</span> New registrations  <div class="progress_wrap"><div title="12%" class="tip_north progress_bar" style="width:12%"></div></div>
-                            </li>
-                            <li>
-                                 <span class="percentage_done">9%</span> Re-opened tasks  <div class="progress_wrap"><div title="9%" class="tip_north progress_bar" style="width:9%"></div></div>
-                            </li>
-                            <li>
-                                 <span class="percentage_done">46%</span> Task completed  <div class="progress_wrap"><div title="46%" class="tip_north progress_bar" style="width:46%"></div></div>
-                            </li>
-                            <li>
-                                 <span class="percentage_done">82%</span> New visitors  <div class="progress_wrap"><div title="82%" class="tip_north progress_bar" style="width:82%"></div></div>
-                            </li>
-                            <li>
-                                 <span class="percentage_done">27%</span> Unique visitors  <div class="progress_wrap"><div title="27%" class="tip_north progress_bar" style="width:27%"></div></div>
-                            </li> 
-                            <li>
-                                 <span class="percentage_done">0%</span> Affiliate registration  <div class="progress_wrap"><div title="0%" class="tip_north progress_bar" style="width:0%"></div></div>
-                            </li>                                                       
-                 </ul>
-            </div>
-        </div>
-    </div>   
-	<!--One_Wrap-->
- 	<div class="one_wrap">
-    	<div class="widget">
-        	<div class="widget_title"><span class="iconsweet">H</span><h5>Projects</h5></div>
-            <div class="widget_body">
-            	<div class="project_sort">
-                	<ul class="filter_project">
-                    	<li class="segment  selected"><a class="all" href="#">All <span class="count">10</span></a></li>
-                        <li class="segment"><a class="incomplete" href="#">Incomplete<span class="count">6</span></a></li>
-                        <li class="segment"><a class="Resolved" href="#">Resolved<span class="count">4</span></a></li>
-                     </ul>
-                     <ul class="project_list">
-                        <li data-id="id-1" data-type="incomplete">
-                        	<span class="project_badge red iconsweet">
-                            4
-                            </span>
-                            <a href="#" class="project_title">
-                            	NIKE <br />
-                                Freeworld
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Paul
-                            </a>                        
-                        </li>
-                        <li data-id="id-2" data-type="incomplete">
-                        	<span class="project_badge red iconsweet">
-                            4
-                            </span>
-                            <a href="#" class="project_title">
-                            	NIKE <br />
-                                Freeworld
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Paul
-                            </a>                        
-                        </li>
-                        <li data-id="id-3" data-type="Resolved">
-                        	<span class="project_badge blue iconsweet">
-                            (
-                            </span>
-                            <a href="#" class="project_title">
-                            	Wacom <br />
-                                BBC
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Omar [SA]
-                            </a>                        
-                        </li>  
-                        <li data-id="id-4" data-type="incomplete">
-                        	<span class="project_badge grey iconsweet">
-                            8
-                            </span>
-                            <a href="#" class="project_title">
-                            	j&D <br />
-                                Appstorm
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Carla
-                            </a>                        
-                        </li>        
-                        <li data-id="id-5" data-type="incomplete">
-                        	<span class="project_badge red iconsweet">
-                            4
-                            </span>
-                            <a href="#" class="project_title">
-                            	NIKE <br />
-                                Freeworld
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Paul
-                            </a>                        
-                        </li>
-                        <li data-id="id-6" data-type="incomplete">
-                        	<span class="project_badge red iconsweet">
-                            4
-                            </span>
-                            <a href="#" class="project_title">
-                            	NIKE <br />
-                                Freeworld
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Paul
-                            </a>                        
-                        </li>
-                        <li data-id="id-7" data-type="Resolved">
-                        	<span class="project_badge blue iconsweet">
-                            (
-                            </span>
-                            <a href="#" class="project_title">
-                            	Wacom <br />
-                                Raje
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Omar [SA]
-                            </a>                        
-                        </li>  
-                        <li data-id="id-8" data-type="Resolved">
-                        	<span class="project_badge blue iconsweet">
-                            (
-                            </span>
-                            <a href="#" class="project_title">
-                            	Wacom <br />
-                                iCAN
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Omar [SA]
-                            </a>                        
-                        </li> 
-                        <li data-id="id-7" data-type="incomplete">
-                        	<span class="project_badge blue iconsweet">
-                            (
-                            </span>
-                            <a href="#" class="project_title">
-                            	Wacom <br />
-                                BBC
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Omar [SA]
-                            </a>                        
-                        </li>  
-                        <li data-id="id-8" data-type="Resolved">
-                        	<span class="project_badge blue iconsweet">
-                            (
-                            </span>
-                            <a href="#" class="project_title">
-                            	Wacom <br />
-                                MAZE
-                            </a>
-                            <a href="#" class="assigned_user">
-                            	<span class="iconsweet">a</span>Omar [SA]
-                            </a>                        
-                        </li>                                                                 
-                                                                                        
-                     </ul>
-                </div>
-            </div>
-        </div>
-    </div>     
-	<!--One_Wrap-->
- 	<div class="one_wrap">
-    	<div class="widget">
-        	<div class="widget_title"><span class="iconsweet">f</span><h5>Activity across your projects</h5></div>
-            <div class="widget_body">
-            	<!--Activity Table-->
-            	<table class="activity_datatable" width="100%" border="0" cellspacing="0" cellpadding="8">
-                    <tr>
-                        <th width="8%">ID</th>
-                        <th width="15%">Category</th>
-                        <th width="32%">Project(s)</th>
-                        <th width="12%">Status</th>
-                        <th width="20%">Remarks</th>
-                        <th width="13%">Actions</th>
-                    </tr>
-                    <tr>
-                        <td>4923</td>
-                        <td><span class="green_highlight pj_cat">Android</span></td>
-                        <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-                        <td><span class="stat_up">72% <span class="arrow_up iconsweet">]</span></span></td>
-                        <td>Assigned to - <a href="#">SA</a></td>
-                        <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>
-                    </tr>
-                    <tr>
-                        <td>3568</td>
-                        <td><span class="grey_highlight pj_cat">Flex</span></td>
-                        <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-                        <td><span class="stat_down">12% <span class="arrow_up iconsweet">[</span></span></td>
-                        <td>Assigned to - <a href="#">SA</a></td>
-                        <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>                    </tr>
-                    <tr>
-                        <td>4923</td>
-                        <td><span class="green_highlight pj_cat">Android</span></td>
-                        <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-                        <td><span class="stat_down">72% <span class="arrow_up iconsweet">[</span></span></td>
-                        <td>Assigned to - <a href="#">SA</a></td>
-                        <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>                    </tr>
-                    <tr>
-                        <td>4923</td>
-                        <td><span class="grey_highlight pj_cat">Flex</span></td>
-                        <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-                        <td><span class="stat_up">72% <span class="arrow_up iconsweet">]</span></span></td>
-                        <td>Assigned to - <a href="#">SA</a></td>
-                        <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>                    </tr>
-                    <tr>
-                        <td>4923</td>
-                        <td><span class="blue_highlight pj_cat">JAVA</span></td>
-                        <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-                        <td><span class="stat_down">44% <span class="arrow_up iconsweet">[</span></span></td>
-                        <td>Assigned to - <a href="#">SA</a></td>
-                        <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>                    
-                     </tr>                          
-                    <tr>
-                        <td>4923</td>
-                        <td><span class="green_highlight pj_cat">Android</span></td>
-                        <td><a href="#">Eodem modo typi, qui nunc nobi...</a></td>
-                        <td><span class="stat_down">72% <span class="arrow_up iconsweet">[</span></span></td>
-                        <td>Assigned to - <a href="#">SA</a></td>
-                        <td><span class="data_actions iconsweet"><a class="tip_north" original-title="User" href="#">a</a> <a class="tip_north" original-title="Edit" href="#">C</a> 						<a class="tip_north" original-title="Delete" href="#">X</a></span></td>                    
-                     </tr>                   
-                </table>
-				<div class="action_bar">
-                    <a class="button_small whitishBtn" href="#"><span class="iconsweet">l</span>Export Table</a>
-                </div>
-            </div>
-        </div>
-    </div>          
-</div>
 <?php
+$up = new Upload();
+$advice = new Template();
+$stock = new Stock();
+
 ?>
+<div id="content_wrap">
+	<?php
+	if(isset($_GET['n']) && is_numeric($_GET['n']) && $_GET['n'] == 1):
+	    include('genera-formulario.php');
+	elseif(isset($_GET['showinventario']) && is_numeric($_GET['showinventario']) && $_GET['showinventario'] == 1):
+	    include('ver-inventario.php');
+	else:
+	?>
+	
+	<!-- Botón ir a inventario -->
+	<div id="quick_actions">
+	    <a href="index.php?d=stock&showinventario=1" class="button_big btn_grey" id="toggleReturnEditUser">
+		<span class="iconsweet">c</span>
+		Ver Inventario
+	    </a>
+	</div>
+	
+	<!-- Subida de Inventario -->
+	<div class="one_two_wrap fl_left">
+	    <div class="widget">
+		<div class="widget_title"><span class="iconsweet">k</span>
+		    <h5>Subir Inventario</h5>
+		</div>
+		<div class="widget_body">
+		    <div class="content_pad">
+			<p>Desde este formulario usted puede subir un inventario, siempre y cuando esté en formado csv. Este se añadirá a la base de datos para que usted pueda gestionarlo.</p>
+			<form name="uploadInventory" method="post" enctype="multipart/form-data" action="<? echo __URL__ . "/index.php?d=stock&upload=true"; ?>">
+			    <p><input type="file" name="uploadCSV"></p>
+			    <input type="submit" value="Cargar Inventario" class="dblueBtn button_small">
+			</form>
+			<?php
+			
+			    $stockWith0 = new Stock();
+			    if(isset($_GET['upload'])){
+				
+				if($up->uploadCSV($_FILES['uploadCSV'])){
+				    $content = array("msg_Success", "=", "El archivo se ha subido satisfactóriamente.");
+				    echo $advice->notice($content);
+				    
+				    // Borrar archivo subido #############################################################
+				    
+				    // Comprobando si existen nLocations con 0
+				    $nLocation = mysql_num_rows($stockWith0->stockWithoutLocation());
+				    if(is_numeric($nLocation) && $nLocation > 0){
+					$content = array("msg_Alert", "!", "Hay " . $nLocation . " registros sin vincular con una localización. Se ha notificado al administrador");
+					echo $advice->notice($content);
+				    }
+				}
+				else{
+				    $content = array("msg_Error", "X", "Ha ocurrido un error al subir el archivo. Por favor vuelva a intentarlo.");
+				    echo $advice->notice($content);
+				}
+			    }
+			?>
+		    </div>
+		</div>
+	    </div>
+	</div>
+	<!-- Fin Subida Inventario -->
+	
+	<div class="one_two_wrap fl_right">
+	    <div class="widget">
+		<div class="widget_title"><span class="iconsweet">}</span>
+		    <h5>Último 5 registros añadidos</h5>
+		</div>
+		<div class="widget_body">
+		    <div class="content_pad">
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam onsectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniamonsectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+		    </div>
+		</div>
+	    </div>
+	</div>
+	
+	<!-- Insertar Registros -->
+	<div class="one_wrap fl_left">
+	    <div class="widget">
+		<div class="widget_title"><span class="iconsweet">8</span>
+		    <h5>Inserccións de Registros</h5>
+		</div>
+		<div class="widget_body">
+		    
+		    <form name="generaRegistros" method="post" action="<?php echo __URL__ . "/index.php?d=stock&n=1"; ?>">
+		    <div class="content_pad">
+			<p>Este formulario le parmitirá generar los campos necesarios para los registros que crea oportunos insertar.</p>
+			<ul class="form_fields_container">
+			    <li>
+				<label>Número de Registros</label>
+				<div class="form_input"><input type="text" name="numformu" required id="checkNumber"></div>
+			    </li>
+			    <li>
+				<input type="submit" class="bluishBtn button_small" value="Generar Formulario" id="newFormu">
+			    </li>
+			</ul>
+		    </div>
+		    </form>
+		</div>
+	    </div>
+	</div>
+	<!-- Fin Insertar Registros -->
+	<?php
+	endif;
+	?>
+</div>

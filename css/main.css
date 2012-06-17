@@ -338,7 +338,8 @@ dl.user_info dd a.user_messages span{
 }
 /*====MAIN CONTENT====*/
 section#main_content{
-	overflow:visible;
+	/*overflow:visible;*/
+	overflow: auto;
 	margin-left:93px;
 	background:url(../images/section_bg.png) repeat-y left center #ebebeb;
 	border-radius:4px 3px 3px 3px;

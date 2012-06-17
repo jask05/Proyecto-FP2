@@ -21,38 +21,7 @@
         <h3>Usuarios Asociados</h3>
     </div>
     <div class="modal-body">
-        <table class="activity_datatable" width="100%" border="0" cellspacing="0" cellpadding="8">
-            <tr>
-                <th width="8%">ID</th>
-                <th width="15%">Usuario</th>
-                <th width="52%">Permiso</th>
-                <th width="25%">Acción</th>
-            </tr>
-        <tr>
-            <td>4923</td>
-            <td><span class="green_highlight pj_cat">Android</span></td>
-            <td><a href="title">Eodem modo typi, qui nunc nobi...</a></td>
-            <td>
-                <span class="data_actions iconsweet">
-                    <a class="tip_north" original-title="User" href="#">a</a>
-                    <a class="tip_north" original-title="Edit" href="#">C</a>
-                    <a class="tip_north" original-title="Delete" href="#">X</a>
-                </span>
-            </td>
-        </tr>
-        <tr>
-            <td>3568</td>
-            <td><span class="grey_highlight pj_cat">Flex</span></td>
-            <td><a href="title">Eodem modo typi, qui nunc nobi...</a></td>
-            <td>
-                <span class="data_actions iconsweet">
-                    <a class="tip_north" original-title="User" href="#">a</a>
-                    <a class="tip_north" original-title="Edit" href="#">C</a>
-                    <a class="tip_north" original-title="Delete" href="#">X</a>
-                </span>
-            </td>
-        </tr>
-
+        <table class="activity_datatable" width="100%" border="0" cellspacing="0" cellpadding="8" id="asociatedUsersModalWindows">
         </table>
     </div>
     <div class="modal-footer">

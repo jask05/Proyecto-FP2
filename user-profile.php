@@ -7,8 +7,7 @@
         $username = ucfirst($showuser[1]);
         
         // Muestra un cartel indicativo si es administrador o no
-        $checkPermm = new User();
-        $rsCheckPermm = mysql_fetch_array($checkPermm->checkUser($_GET['user']));
+        $rsCheckPermm = mysql_fetch_array($userName->checkUser($_GET['user']));
         $checked = ($rsCheckPermm[1] == 1) ? "<a class='greenishBtn button_small' style='margin:5px;'>Administrador</a>" : "<a class='whitishBtn button_small' style='margin:5px;'>Usuario</a>";
         
         ?>
@@ -85,11 +84,9 @@
                             <label>Ciudades</label>
                             <?php
                             $printCity = new City();
-                            $checkCityUser = new User();
                             $checked = new Common();
-
                             // Guarda en un array los ID's de las ciudades que tiene el usuario
-                            $checkCU = $checkCityUser->getCityUser($_GET['user'], 1);
+                            $checkCU = $userName->getCityUser($_GET['user'], 1);
                             while($x = mysql_fetch_array($checkCU)){
                                 $currentCity[] = $x['nCityID'];
                             }

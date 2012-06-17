@@ -7,13 +7,18 @@ else:
 <div id="content_wrap">	<!--Activity Stats-->
     <div id="admin-resume">
 	<?php
-	
 	include("modal-window.php");
 	
 	if(isset($_GET['user']) && is_numeric($_GET['user'])):
 	    include('user-profile.php');
 	elseif(isset($_POST['search']) && !empty($_POST['search'])):
 	    include('search.php');
+	elseif(isset($_GET['allusers']) && $_GET['allusers']==1):
+	    include('all-users.php');
+	elseif(isset($_GET['allcities']) && $_GET['allcities']==1):
+	    include('all-cities.php');
+	elseif(isset($_GET['vinculate']) && $_GET['vinculate']==1):
+	    include('vinculate-reg.php');
 	else:
 	?>
 	<div id="activity_stats">
@@ -36,6 +41,31 @@ else:
             </div>
         </div>                  
 	
+	<!-- Listado de todos los usuarios -->
+	<div id="quick_actions">
+	    <a href="index.php?d=admin&allusers=1" class="button_big btn_grey" id="toggleReturnEditUser">
+		<span class="iconsweet">f</span>
+		Listado de Usuarios
+	    </a>
+	    <a href="index.php?d=admin&allcities=1" class="button_big" id="toggleReturnEditUser">
+		<span class="iconsweet">1</span>
+		Listado de Ciudades
+	    </a>
+	</div>
+	
+	<!-- Aviso de Stock sin Location -->
+	<div class="one_wrap">
+	<?php
+	$stockWith0 = new Stock();
+	$advice = new Template();
+	$nLocation = mysql_num_rows($stockWith0->stockWithoutLocation());
+	if(is_numeric($nLocation) && $nLocation > 0){
+	    $content = array("msg_Alert", "!", "Hay " . $nLocation . " registros sin vincular con una localización. Pinche <a href='index.php?d=admin&vinculate=1'> aquí</a> para editarlos.");
+	    echo $advice->notice($content);
+	}
+	?>
+	</div>
+		
 	<div class="one_wrap">
 	    <div class="widget">
 		    <!-- @@@@@@@ Listado de Usuarios @@@@@@@ -->
@@ -103,17 +133,13 @@ else:
 				<li>
 				    <label>Ciudad</label>
 				    <div class="form_input">
-					<?php
-					$verCiudad = new City();
-					?>
 					<select name="selectCityNewUser" id="selectCityNewUser">
 					    <option value="0" selected="selected">Seleccione una ciudad</option>
 					    <?php
-					    $objCity = $verCiudad->showCity();
-					    while($rsCity = mysql_fetch_assoc($objCity))
-					    {
+					    $objCity = $ciudades->showCity();
+					    while($rsCity = mysql_fetch_assoc($objCity)):
 						echo "<option value='" . $rsCity['nID'] . "'>" . html_entity_decode($rsCity['cName']) . "</option>";
-					    }
+					    endwhile;
 					    ?>
 					</select>
 				    </div>

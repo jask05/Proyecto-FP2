@@ -519,22 +519,25 @@ if(jQuery('#column_drill').length)
 				marginRight:20
 			},
 			title: {
-				text: 'Browser market share, April, 2011'
+				text: 'Listado del stock por ciudad'
 			},
+			/*
 			subtitle: {
 				text: 'Click the columns to view versions. Click again to view brands.'
 			},
+			*/
 			xAxis: {
 				categories: categories
 			},
 			yAxis: {
 				title: {
-					text: 'Total percent market share'
+					text: 'Nº de registros totales'
 				}
 			},
 			plotOptions: {
 				column: {
 					cursor: 'pointer',
+					/*
 					point: {
 						events: {
 							click: function() {
@@ -547,6 +550,7 @@ if(jQuery('#column_drill').length)
 							}
 						}
 					},
+					*/
 					dataLabels: {
 						enabled: true,
 						color: colors[0],
@@ -563,11 +567,13 @@ if(jQuery('#column_drill').length)
 				formatter: function() {
 					var point = this.point,
 						s = this.x +':<b>'+ this.y +'% market share</b><br/>';
+					/*
 					if (point.drilldown) {
 						s += 'Click to view '+ point.category +' versions';
 					} else {
 						s += 'Click to return to browser brands';
 					}
+					*/
 					return s;
 				}
 			},

@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    
     // Añade una ciudad
     $("#addCity").click(function(){
         var nombreCiudad = $("#nombreCiudad");
@@ -186,6 +185,17 @@ $(document).ready(function(){
             }
         }
     })
+    
+    // Comprueba si el campo que se insertó es numérico
+    $("#newFormu").click(function(){
+        if(isNaN($("#checkNumber").val())){
+            $("#checkNumber").addClass("in_error");
+            alert("Solo se pueden insertar valores numéricos");
+            return false;
+        }
+        return true;
+    })
+    
 });
 
 // Aparece el botón de 'Guardar'
@@ -284,4 +294,26 @@ function changeCityUser(id){
         },
         timeout: 4000
     });
+}
+
+// Activa el modal-windows de la búsqueda de los usuarios asociados a una ciudad
+function showAsociatedUsers(id){
+    var bottonID = $('#'+id);
+    var inputHidenValue = bottonID.prev('input').val();
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        contentType: "application/x-www-form-urlencoded",
+        url: "lib/ajax.php",
+        data: "asociatedusers="+inputHidenValue,
+        success: function(data){  
+            console.log(inputHidenValue);
+            $('#asociatedUsersModalWindows').html(data);
+        },
+        error: function(){
+            alert("Ha ocurrido un error al intentar mostrar los usuarios asociados a una ciudad.");
+        },
+        timeout: 4000
+    });
+    
 }

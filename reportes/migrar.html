@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<head>
+<title>:: Importar de CSV a la Base de Datos ::</title>
+</head>
+<body>
+
+<!- Formulario Madrid_Stock ->
+
+	<font face=verdana size=2>
+	<b>Importar tablas a la base de datos</b><p>
+	Selecciona el archivo <b>Madrid_Stock.csv </b> a importar:<br><font size=1></font><p>
+	<form name="importa" method="post" action="pruebacsv.php" ENCTYPE="multipart/form-data"> 
+		<input type="file" name="excel" size="40"/>
+		<input type='submit' name='enviar'  value="Importar"  />
+		<input type="hidden" value="upload" name="action" />
+	</form>
+        <br>
+        
+    <h1>Ver Madrid_Stock</h1>
+        <form action="visualizarmysql.php" method="post">
+                <input type="submit" value="Ver tabla">
+        </form>
+	
+    <h1>Ver log</h1>
+        <form action="verlog.php" method="post">
+                <input type="submit" value="Ver log">
+        </form>
+	
+    <h1>Ver Binari log</h1>
+        <form action="verlogbin.php" method="post">
+                <input type="submit" value="Ver log">
+        </form>
+    
+    <h1>Buscar por Status</h1>
+        <form action="recreportes.php" method="post">
+		<input type="text" value="Status" name="cStatus">
+                <input type="submit" value="Ver log">
+        </form>
+	
+</body>
+</html>

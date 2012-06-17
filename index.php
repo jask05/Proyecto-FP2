@@ -6,7 +6,6 @@ include("funciones.php");
 
 if(empty($_SESSION["logueo"]) && $_SESSION["logueo"] != TRUE){
     header("Location: " . __URL__ . "/login.php");
-    
 }
 
 // BD
@@ -37,13 +36,14 @@ $seccion = @$_GET["d"];
 <header>
     <!--Logo-->
     <div id="logo"><a href="#"><img src="./images/logo.png" alt="" /></a></div>
-    <!--Search-->
+    <!--Search
     <div class="header_search">
         <form action="">
             <input type="text" name="search" placeholder="Buscar" id="ac">
             <input type="submit" value="">
         </form>
     </div>
+    -->
 </header>
 <!--Dreamworks Container-->
 <div id="dreamworks_container">
