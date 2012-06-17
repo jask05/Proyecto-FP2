@@ -118,9 +118,11 @@ class Common{
 	
 	public function changeDate($date){
 	    // Cambia de día-mes-año
-	    $date_xplo = explode("-", $date);
-	    $rs = $date_xplo[2] ."-".$date_xplo[1]."-".$date_xplo[0];
-	    return $rs;
+	    if(!empty($date)){
+		$date_xplo = explode("-", $date);
+		$rs = $date_xplo[2] ."-".$date_xplo[1]."-".$date_xplo[0];
+		return $rs;
+	    }
 	}
 	
 }
@@ -778,6 +780,18 @@ class Stock extends Mysql_Connect{
 	return mysql_query($this->sentencia);
     }
     
+    // Genera Reporte
+    public function generateReport($arg){
+	$this->buscar = $arg;
+	$this->sentencia = "SELECT stock.*, city.cName as ciudad
+			    FROM stock 
+			    INNER JOIN city ON city.nID = stock.nLocation
+			    WHERE stock.cStatus = '" . $this->buscar . "'
+			    ORDER BY nID DESC";
+			    
+	return mysql_query($this->sentencia);
+    }
+    
 }
 
 class Upload extends Mysql_Connect{
@@ -915,25 +929,30 @@ class Upload extends Mysql_Connect{
 	
 
 	if($this->checkExtension($this->file, ".csv")){
-	    if($this->checkType($this->file, "text/csv")){
+	    if($this->checkType($this->file, "text/csv") || $this->checkType($this->file, "application/vnd.ms-excel")){
 		if(move_uploaded_file($this->file['tmp_name'], $folder . $this->name)){
 		    if($this->insertCSV($this->name, $folder)){
 			return true;
 		    }
 		    else{
 			return false;
+			//return "Falla \$this->insertCSV(\$this->name, \$folder)";
 		    }
 		}
 		else{
-		    return false;   
+		    return false;
+		    //return "falla if(move_uploaded_file(\$this->file['tmp_name'], \$folder . \$this->name)){";
 		}
 	    }
 	    else{
 		return false;
+		//return "falla \$this->checkType(\$this->file, \"text/csv\")";
+		//return $this->file["type"];
 	    }  
 	}
 	else{
 	    return false;
+	    //return "falla \$this->checkExtension(\$this->file, \".csv\")";
 	}
     }
     
