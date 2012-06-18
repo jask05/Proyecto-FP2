@@ -792,6 +792,17 @@ class Stock extends Mysql_Connect{
 	return mysql_query($this->sentencia);
     }
     
+    // Últimos 5 registros
+    public function last5reg(){
+	$this->sentencia = "SELECT stock.*, city.cName as ciudad
+			    FROM stock 
+			    INNER JOIN city ON city.nID = stock.nLocation
+			    ORDER BY nID DESC
+			    LIMIT 5";
+			    
+	return mysql_query($this->sentencia);
+    }
+    
 }
 
 class Upload extends Mysql_Connect{

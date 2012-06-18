@@ -52,8 +52,9 @@ if(@!empty($_SESSION["logueo"]) && $_SESSION["logueo"] === TRUE)
 	    <div>
 	    <?php
 	    if(isset($_GET["loginfail"]) == TRUE):
+		$content = array("msg_Error", "X", "Usuario o Contraseña Incorrectos");
+		echo $template->notice($content);
 	    ?>
-		<span>Usuario o Contraseña Incorrectos</span>
 	    <?php
 	    endif;
 	    ?>

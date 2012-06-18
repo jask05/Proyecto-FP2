@@ -1,10 +1,4 @@
 <?php
-/*
-if($permiso != 1):
-    $parametros = array("msg_Error", "X", "No tienes permiso para ver esta sección.");
-    echo "<div id='content_wrap'>" . $template->notice($parametros) . "</div>";
-*/
-
 $ciudades 	= new City();
 $stock 		= new Stock();
 $advice 	= new Template();
@@ -87,12 +81,6 @@ else:
 		endwhile;
 		?>
 	    </table>
-	    <!--
-            <div class="action_bar">
-                <a class="button_small bluishBtn" id="newUser" href="<?php //echo $_SERVER['REQUEST_URI'] . "&prev="; ?>"><span class="iconsweet"><</span>Página Anterior</a>
-		<a class="button_small bluishBtn" id="newUser" href="<?php //echo $_SERVER['REQUEST_URI'] . "&next=id"; ?>"><span class="iconsweet">></span>Página Siguiente</a>
-            </div>
-            -->
 	</div>
 	<!-- @@@@@@@ FIN Registros Totales @@@@@@@ -->
     </div> 

@@ -35,8 +35,6 @@ $stock = new Stock();
 			    <input type="submit" value="Cargar Inventario" class="dblueBtn button_small">
 			</form>
 			<?php
-			
-			    $stockWith0 = new Stock();
 			    if(isset($_GET['upload'])){
 				
 				if($up->uploadCSV($_FILES['uploadCSV'])){
@@ -46,7 +44,7 @@ $stock = new Stock();
 				    // Borrar archivo subido #############################################################
 				    
 				    // Comprobando si existen nLocations con 0
-				    $nLocation = mysql_num_rows($stockWith0->stockWithoutLocation());
+				    $nLocation = mysql_num_rows($stock->stockWithoutLocation());
 				    if(is_numeric($nLocation) && $nLocation > 0){
 					$content = array("msg_Alert", "!", "Hay " . $nLocation . " registros sin vincular con una localización. Se ha notificado al administrador");
 					echo $advice->notice($content);
@@ -55,6 +53,7 @@ $stock = new Stock();
 				else{
 				    $content = array("msg_Error", "X", "Ha ocurrido un error al subir el archivo. Por favor vuelva a intentarlo.");
 				    echo $advice->notice($content);
+				    echo $folder = $_SERVER['DOCUMENT_ROOT'] . "/" . __MAINFOLDER__ . "/tmp/";
 				}
 			    }
 			?>
@@ -71,7 +70,27 @@ $stock = new Stock();
 		</div>
 		<div class="widget_body">
 		    <div class="content_pad">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam onsectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniamonsectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+			<table class="activity_datatable" width="100%" border="0" cellspacing="0" cellpadding="8">
+			    <tr>
+				<th width="8%">ID</th>
+				<th width="15%">Item</th>
+				<th width="15%">Status</th>
+				<th width="12%">Location</th>
+			    </tr>
+			    <?php
+			    $rs_stock = $stock->last5reg();
+			    while($showStock = mysql_fetch_assoc($rs_stock)):
+			    ?>
+			    <tr>
+				<td id="<?php echo $showStock['nID']; ?>"><?php echo $showStock['nID']; ?></td>
+				<td><?php echo $showStock['cItems']; ?></td>
+				<td><?php echo $showStock['cStatus']; ?></td>
+				<td><?php echo $showStock['ciudad']; ?></td>
+			    </tr>
+			    <?php
+			    endwhile;
+			    ?>
+			</table>
 		    </div>
 		</div>
 	    </div>

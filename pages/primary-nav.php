@@ -13,10 +13,5 @@
         <?php
         endif;
         ?>
-        <li class="nav_graphs"><a href="./charts.html">Graphs</a></li>
-        <li class="nav_forms"><a href="./forms.html">Forms</a></li>
-        <li class="nav_typography"><a href="./typography.html">Typography</a></li>
-        <li class="nav_uielements"><a href="./ui_elements.html">UI Elements</a></li>
-        <li class="nav_pages"><a href="./pages.html">Pages</a></li>
     </ul>
 </nav>
